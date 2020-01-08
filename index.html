@@ -16,7 +16,7 @@
   <body>
     <label for="message" class="h4" style="margin-top: 20px;">Message:</label>
     <div style="height: 20 rem; overflow-y: scroll; overflow-x: hidden;max-height: 49rem; "id ="box">
-    <ul id="messages" style=" border: solid 1px #cecece; list-style: none;width: 2050px;">
+    <ul id="messages" style=" border: solid 1px #cecece; list-style: none;width: 1650px;">
       <div  style="float:right;width:300px;border-left:1px solid black;height:auto;padding:10px;overflow: auto; overflow-y:scroll;">
       <b>Member in the room
       </b>
@@ -52,8 +52,13 @@
       // });
         var socket=io.connect('http://localhost:3000/');
         socket.on('connect',function(){
-          var name=prompt('What\'s yours name ?');
-          socket.emit('NewUser',name,socket.id);
+          num=Math.floor(Math.random() * 100000)
+          var name,roomid;
+          if(!(name=prompt('What\'s yours name ?','Guest '+num)))
+          name="Guest "+num;
+          if(!(roomid=prompt('Which room do you want to join ?')))
+          roomid="Guest";
+          socket.emit('NewUser',name,socket.id,roomid);
         })
         socket.on('notify',function(username){
           $('#messages').append('<li><b>'+username+'</b></li>');

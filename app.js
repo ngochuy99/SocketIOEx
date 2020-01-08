@@ -7,7 +7,7 @@ app.get('/',function(req,res){
 });
 var Userlist={};
 var ID={};
-
+var room={};
 //iosocket-part
 // io.on('connection',function(socket){
 //     var name;
@@ -23,23 +23,36 @@ var ID={};
 
 //altenative iosocket
 io.on('connection',function(socket){
-    socket.on('NewUser',function(username,id){
+    socket.on('NewUser',function(username,id,roomid){
         socket.username=username;
         Userlist[username]=username;
         ID[username]=id;
-        socket.emit('notify','You have joined chat room');
-        socket.broadcast.emit('notify',username+' have connected!');
-        io.sockets.emit('update',Userlist);
+        room[username]=roomid;
+        socket.roomid=roomid;
+        socket.join(roomid);
+        socket.emit('notify','You have joined chatroom ' +roomid);
+        socket.broadcast.to(socket.roomid).emit('notify',username+' have connected!');
+        var local={};
+        for(people in Userlist){
+            if(room[people]==socket.roomid)  local[people]=people;
+        }
+        io.to(socket.roomid).emit('update',local);
     })
     socket.on('sendmes',function(data){
-        io.emit('post',socket.username,data);
+        io.to(socket.roomid).emit('post',socket.username,data);
     })
     socket.on('disconnect',function(){
         delete Userlist[socket.username];
         io.emit('leave',socket.username+'has left');
+        var local={};
+        for(people in Userlist){
+            if(room[people]==socket.roomid)  local[people]=people;
+        }
+        io.to(socket.roomid).emit('update',local);
     })
     socket.on('private',function(data,id){
         var text='From '+socket.username;
+        socket.emit('post',text,data);
         io.to(ID[id]).emit('post',text,data);
     })
 })
