@@ -1,0 +1,109 @@
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  </head>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    form { padding: 3px; position: fixed; bottom: 0; width: 100%; }
+    form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+    #messages { list-style-type: none; margin: 0; padding: 0; }
+    #messages li { padding: 5px 10px; }
+  </style>
+  <body>
+    <label for="message" class="h4" style="margin-top: 20px;">Message:</label>
+    <div style="height: 20 rem; overflow-y: scroll; overflow-x: hidden;max-height: 49rem; "id ="box">
+    <ul id="messages" style=" border: solid 1px #cecece; list-style: none;width: 2050px;">
+      <div  style="float:right;width:300px;border-left:1px solid black;height:auto;padding:10px;overflow: auto; overflow-y:scroll;">
+      <b>Member in the room
+      </b>
+      <div id="users"></div>
+    </div>
+  </ul>
+</div>
+<div>
+    <form>
+      TO<input id="id" class="form-control"></input>
+      <input id="m" class="form-control" rows="5" placeholder="Enter your message" required></input><br>
+      <button type="submit" id="form-submit" class="btn btn-success btn-lg pull-right ">Submit</button>
+    </form>
+  </div>
+    <script>
+      // $(function () {
+      //   var socket = io();
+      //   $('form').submit(function(e){
+      //      e.preventDefault();
+      //      const data={
+      //         "msg": $('#m').val(),
+      //         "name":$('#nickname').val()
+      //      }
+      //     socket.emit('chat message',data);
+      //   });
+      //   socket.on('userleft',function(data){
+      //       $('#messages').append($('<h5>').text(data));
+      //   });
+      //   socket.on('chat message', function(msg){
+      //    $('#messages').append($('<h4>').text(msg.name+":"));
+      //    $('#messages').append($('<li>').text("       "+msg.msg));
+      //   });
+      // });
+        var socket=io.connect('http://localhost:3000/');
+        socket.on('connect',function(){
+          var name=prompt('What\'s yours name ?');
+          socket.emit('NewUser',name,socket.id);
+        })
+        socket.on('notify',function(username){
+          $('#messages').append('<li><b>'+username+'</b></li>');
+          $('#box').scrollTop($('#box').height());
+        })
+        $(function(){
+        $('#form-submit').click(function(e){
+
+          var message=$('#m').val();
+          $('#m').val('');
+          e.preventDefault();
+          if($('#id').val()!=''){
+            socket.emit('private',message,$('#id').val());
+            $('#id').val('');
+          }
+          else
+          socket.emit('sendmes',message);
+        })
+        $('#m').keypress(function(e){
+          if(e.which==13){
+            var message=$('#m').val();
+            $('#m').val('');
+            e.preventDefault();
+            console.log($('#id').val())
+            if($('#id').val()!=''){
+            socket.emit('private',message,$('#id').val());
+            $('#id').val('');
+            }
+            else{
+            socket.emit('sendmes',message);
+            $(this).blur();
+            }
+          }
+        })
+      });
+        socket.on('post',function(name,data){
+          $('#messages').append('<div><b>'+name+'</b>:<br>'+data);
+          $('#box').scrollTop($('#box').height());
+        })
+        socket.on('update',function(list){
+          $('#users').empty();
+          $.each(list,function(user){
+            if(user!='null')
+            $('#users').append('<div>'+user+'</div>');
+          })
+        })
+        socket.on('leave',function(data){
+          $('#messages').append('<li><b>'+data+'</b></li>');
+          $('#box').scrollTop($('#box').height());
+        })
+    </script>
+  </body>
+</html>
