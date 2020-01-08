@@ -40,11 +40,11 @@ io.on('connection',function(socket){
         io.emit('select',Userlist,socket.username);
     })
     socket.on('sendmes',function(data){
-        io.to(socket.roomid).emit('post',socket.username,data);
+        io.to(socket.roomid).emit('post',socket.username,"      "+data);
     })
     socket.on('disconnect',function(){
         delete Userlist[socket.username];
-        io.emit('leave',socket.username+'has left');
+        io.emit('leave',socket.username+' has left');
         var local={};
         for(people in Userlist){
             if(room[people]==socket.roomid)  local[people]=people;

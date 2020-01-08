@@ -60,10 +60,12 @@
           roomid="Guest";
           socket.emit('NewUser',name,socket.id,roomid);
         })
+        //Notify A member joined chatroom
         socket.on('notify',function(username){
           $('#messages').append('<li><b>'+username+'</b></li>');
           $('#box').scrollTop($('#box').height());
         })
+        //Submit Member information
         $(function(){
         $('#form-submit').click(function(e){
 
@@ -94,10 +96,12 @@
           }
         })
       });
+        //Send messages to chatroom
         socket.on('post',function(name,data){
           $('#messages').append('<div><b>'+name+'</b>:<br>'+data);
           $('#box').scrollTop($('#box').height());
         })
+        //Update Private message destination
         socket.on('select',function(list,name){
           $('#id').empty();
           $('#id').append('<option>Chatroom</option>');
@@ -106,6 +110,7 @@
             $('#id').append('<option>'+user+'</option>');
           })
         })
+        //update online Member
         socket.on('update',function(list){
           $('#users').empty();
           $.each(list,function(user){
@@ -113,6 +118,7 @@
             $('#users').append('<div>'+user+'</div>');
           })
         })
+        //Detect a Member left the room
         socket.on('leave',function(data){
           $('#messages').append('<li><b>'+data+'</b></li>');
           $('#box').scrollTop($('#box').height());
