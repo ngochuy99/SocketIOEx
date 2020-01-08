@@ -26,7 +26,7 @@
 </div>
 <div>
     <form>
-      TO<input id="id" class="form-control"></input>
+      TO<select  id="id" class="form-control"></select  id="id" class="form-control">
       <input id="m" class="form-control" rows="5" placeholder="Enter your message" required></input><br>
       <button type="submit" id="form-submit" class="btn btn-success btn-lg pull-right ">Submit</button>
     </form>
@@ -83,7 +83,7 @@
             $('#m').val('');
             e.preventDefault();
             console.log($('#id').val())
-            if($('#id').val()!=''){
+            if($('#id').val()!='Chatroom'){
             socket.emit('private',message,$('#id').val());
             $('#id').val('');
             }
@@ -97,6 +97,14 @@
         socket.on('post',function(name,data){
           $('#messages').append('<div><b>'+name+'</b>:<br>'+data);
           $('#box').scrollTop($('#box').height());
+        })
+        socket.on('select',function(list,name){
+          $('#id').empty();
+          $('#id').append('<option>Chatroom</option>');
+          $.each(list,function(user){
+            if(user!='null'&&user!=name)
+            $('#id').append('<option>'+user+'</option>');
+          })
         })
         socket.on('update',function(list){
           $('#users').empty();

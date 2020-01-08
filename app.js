@@ -37,6 +37,7 @@ io.on('connection',function(socket){
             if(room[people]==socket.roomid)  local[people]=people;
         }
         io.to(socket.roomid).emit('update',local);
+        io.emit('select',Userlist,socket.username);
     })
     socket.on('sendmes',function(data){
         io.to(socket.roomid).emit('post',socket.username,data);
