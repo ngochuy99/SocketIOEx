@@ -30,6 +30,7 @@
       <input id="m" class="form-control" rows="5" placeholder="Enter your message" ></input><br>
       <button type="submit" id="form-submit" class="btn btn-success btn-lg pull-right ">Submit</button>
       <button id="leave" class="btn btn-success btn-lg pull-right ">Leave Room</button>
+      <h3 id="room">Room: </h3>
     </form>
   </div>
     <script>
@@ -42,6 +43,7 @@
           if(!(roomid=prompt('Which room do you want to join ?')))
           roomid="Guest";
           socket.emit('NewUser',name,socket.id,roomid);
+          $('#room').append(roomid);
         })
         //LeaveRoom
         $('#leave').click(function(e){
