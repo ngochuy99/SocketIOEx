@@ -15,7 +15,7 @@
   </style>
   <body>
     <label for="message" class="h4" style="margin-top: 20px;">Message:</label>
-    <div style="height: 20 rem; overflow-y: scroll; overflow-x: hidden;max-height: 49rem; "id ="box">
+    <div style=" overflow-y: scroll; overflow-x: hidden;max-height: 25rem; "id ="box">
     <ul id="messages" style=" border: solid 1px #cecece; list-style: none;width: 1650px;">
       <div  style="float:right;width:300px;border-left:1px solid black;height:auto;padding:10px;overflow: auto; overflow-y:scroll;">
       <b>Member in the room
@@ -27,29 +27,12 @@
 <div>
     <form>
       TO<select  id="id" class="form-control"></select  id="id" class="form-control">
-      <input id="m" class="form-control" rows="5" placeholder="Enter your message" required></input><br>
+      <input id="m" class="form-control" rows="5" placeholder="Enter your message" ></input><br>
       <button type="submit" id="form-submit" class="btn btn-success btn-lg pull-right ">Submit</button>
+      <button id="leave" class="btn btn-success btn-lg pull-right ">Leave Room</button>
     </form>
   </div>
     <script>
-      // $(function () {
-      //   var socket = io();
-      //   $('form').submit(function(e){
-      //      e.preventDefault();
-      //      const data={
-      //         "msg": $('#m').val(),
-      //         "name":$('#nickname').val()
-      //      }
-      //     socket.emit('chat message',data);
-      //   });
-      //   socket.on('userleft',function(data){
-      //       $('#messages').append($('<h5>').text(data));
-      //   });
-      //   socket.on('chat message', function(msg){
-      //    $('#messages').append($('<h4>').text(msg.name+":"));
-      //    $('#messages').append($('<li>').text("       "+msg.msg));
-      //   });
-      // });
         var socket=io.connect('http://localhost:3000/');
         socket.on('connect',function(){
           num=Math.floor(Math.random() * 100000)
@@ -60,6 +43,13 @@
           roomid="Guest";
           socket.emit('NewUser',name,socket.id,roomid);
         })
+        //LeaveRoom
+        $('#leave').click(function(e){
+          if(!(roomid=prompt('Which room do you want to join ?')))
+          roomid="Guest";
+          socket.emit('leave-room',roomid);
+          e.preventDefault();
+        })
         //Notify A member joined chatroom
         socket.on('notify',function(username){
           $('#messages').append('<li><b>'+username+'</b></li>');
@@ -68,38 +58,39 @@
         //Submit Member information
         $(function(){
         $('#form-submit').click(function(e){
-
+          if($('#m').val()!=''){
           var message=$('#m').val();
           $('#m').val('');
           e.preventDefault();
-          if($('#id').val()!=''){
+          if($('#id').val()!='Chatroom'){
             socket.emit('private',message,$('#id').val());
-            $('#id').val('');
           }
           else
           socket.emit('sendmes',message);
+        }
         })
         $('#m').keypress(function(e){
           if(e.which==13){
+            if($('#m').val()!=''){
             var message=$('#m').val();
             $('#m').val('');
             e.preventDefault();
             console.log($('#id').val())
             if($('#id').val()!='Chatroom'){
             socket.emit('private',message,$('#id').val());
-            $('#id').val('');
             }
             else{
             socket.emit('sendmes',message);
             $(this).blur();
             }
           }
+        }
         })
       });
         //Send messages to chatroom
         socket.on('post',function(name,data){
           $('#messages').append('<div><b>'+name+'</b>:<br>'+data);
-          $('#box').scrollTop($('#box').height());
+          $('#box').stop ().animate ({scrollTop: $('#box')[0].scrollHeight});
         })
         //Update Private message destination
         socket.on('select',function(list,name){
@@ -121,7 +112,7 @@
         //Detect a Member left the room
         socket.on('leave',function(data){
           $('#messages').append('<li><b>'+data+'</b></li>');
-          $('#box').scrollTop($('#box').height());
+          $('#box').stop ().animate ({scrollTop: $('#box')[0].scrollHeight});
         })
     </script>
   </body>
