@@ -16,18 +16,16 @@
   <body>
     <label for="message" class="h4" style="margin-top: 20px;">Message:</label>
     <div style=" overflow-y: scroll; overflow-x: hidden;max-height: 25rem; "id ="box">
-    <ul id="messages" style=" border: solid 1px #cecece; list-style: none;width: 1650px;">
-      <div  style="float:right;width:300px;border-left:1px solid black;height:auto;padding:10px;overflow: auto; overflow-y:scroll;">
-      <b>Member in the room
-      </b>
-      <div id="users"></div>
-    </div>
-  </ul>
+    <ul id="messages" style="  list-style: none;width: 1650px;"></ul>
+  <div  style=" position: fixed; width:200px; height: 0px; top: 50%; left: 50%; margin-left: 590px; margin-top: -300px; max-height: 200px;">
+    <b>Member in the room</b>
+    <div id="users"></div>
+  </div>
 </div>
 <div>
     <form>
-      TO<select  id="id" class="form-control"></select  id="id" class="form-control">
-      <input id="m" class="form-control" rows="5" placeholder="Enter your message" ></input><br>
+      TO<select  id="id" class="form-control"></select  id="id">
+      <input id="m" class="form-control" rows="5" placeholder="Enter your message" required></input><br>
       <button type="submit" id="form-submit" class="btn btn-success btn-lg pull-right ">Submit</button>
       <button id="leave" class="btn btn-success btn-lg pull-right ">Leave Room</button>
       <h3 id="room">Room: </h3>
@@ -35,6 +33,7 @@
   </div>
     <script>
         var socket=io.connect('http://localhost:3000/');
+        $(function(){
         socket.on('connect',function(){
           num=Math.floor(Math.random() * 100000)
           var name,roomid;
@@ -51,6 +50,7 @@
           roomid="Guest";
           socket.emit('leave-room',roomid);
           e.preventDefault();
+          $('#room').empty().append('Room: '+roomid);
         })
         //Notify A member joined chatroom
         socket.on('notify',function(username){
@@ -93,6 +93,7 @@
         socket.on('post',function(name,data){
           $('#messages').append('<div><b>'+name+'</b>:<br>'+data);
           $('#box').stop ().animate ({scrollTop: $('#box')[0].scrollHeight});
+          $('#m').focus();
         })
         //Update Private message destination
         socket.on('select',function(list,name){
@@ -116,6 +117,7 @@
           $('#messages').append('<li><b>'+data+'</b></li>');
           $('#box').stop ().animate ({scrollTop: $('#box')[0].scrollHeight});
         })
+      })
     </script>
   </body>
 </html>
