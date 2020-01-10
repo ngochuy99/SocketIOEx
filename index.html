@@ -32,6 +32,7 @@
     </form>
   </div>
     <script>
+        var clientname;
         var socket=io.connect();
         $(function(){
         socket.on('connect',function(){
@@ -41,6 +42,7 @@
           name="Guest "+num;
           if(!(roomid=prompt('Which room do you want to join ?')))
           roomid="Guest";
+          clientname=name;
           socket.emit('NewUser',name,socket.id,roomid);
           $('#room').append(roomid);
         })
@@ -96,12 +98,11 @@
           $('#m').focus();
         })
         //Update Private message destination
-        socket.on('select',function(list,name){
-          console.log(name)
+        socket.on('select',function(list){
           $('#id').empty();
           $('#id').append('<option>Chatroom</option>');
           $.each(list,function(user){
-            if(user!='null'&&user!=name)
+            if(user!='null'&&user!=clientname)
             $('#id').append('<option>'+user+'</option>');
           })
         })
