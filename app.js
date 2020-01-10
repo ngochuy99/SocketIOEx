@@ -61,6 +61,6 @@ io.on('connection',function(socket){
         io.to(ID[id]).emit('post',sender,data);
     })
 })
-http.listen(3000,function(){
+http.listen(process.env.PORT||3000,function(){
     console.log('Sever is running on port 3000');
 })
