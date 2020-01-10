@@ -43,7 +43,7 @@ io.on('connection',function(socket){
             if(room[people]==socket.roomid)  local[people]=people;
         }
         io.to(socket.roomid).emit('update',local);
-        socket.emit('select',Userlist,socket.username);
+        io.emit('select',Userlist,socket.username);
     })
     socket.on('disconnect',function(){
         delete Userlist[socket.username];
