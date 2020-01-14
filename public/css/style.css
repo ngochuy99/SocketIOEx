@@ -1,7 +1,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
     form { padding: 3px; position: fixed; bottom: 0; width: 100%; }
-    form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-    #messages { list-style-type: none; margin: 0; padding: 0; }
+    form input { border: 0; padding: 10px; width: 80%; margin-right: .5%; float: left;border-right: none;}
+    #messages { list-style-type: none; margin: 0; padding: 0; background: rgb(192, 192, 192,0.2);}
     #messages li { padding: 5px 10px; }
     body{
     background:url('/static/background.jpg') no-repeat center center fixed;
@@ -9,4 +9,32 @@
     -moz-background-size:cover;
     -o-background-size: cover;
     background-size: cover;
-}
+    }
+    h3{
+        padding-top: 0%;
+        margin-top: 0px;
+    }
+    form button{
+        width: 40px;
+        height: 33px;
+        color: black;
+        background-color: darkgrey;
+        border: none;
+    }
+    form button.leave{
+        width: 100px;
+        height: 66px;
+        color: black;
+        border: solid;
+        border-color: white;
+        border-width: 1px;
+    }
+    form button.face-time{
+        width: 100px;
+        height: 66px;
+        color: black;
+        background-color: darkgrey;
+        border: solid;
+        border-color: white;
+        border-width: 1px;
+    }

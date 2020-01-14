@@ -6,6 +6,9 @@ app.use(express.static('public'));
 app.get('/',function(req,res){
     res.sendFile(__dirname + '/index.html');
 });
+app.get('/facetime',function(req,res){
+    res.sendFile(__dirname+'/public/html/facetime.html');
+})
 var Userlist={};
 var ID={};
 var room={};
@@ -61,6 +64,7 @@ io.on('connection',function(socket){
         io.to(ID[id]).emit('post',sender,data);
     })
 })
+
 http.listen(process.env.PORT||3000,function(){
     console.log('Sever is running on port 3000');
 })
