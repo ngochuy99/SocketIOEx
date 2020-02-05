@@ -38,3 +38,8 @@
         border-color: white;
         border-width: 1px;
     }
+    .modal-ku {
+        width: 1300px;
+        height: 1000px;
+        margin: auto;
+      }

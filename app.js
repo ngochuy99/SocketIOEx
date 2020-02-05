@@ -33,6 +33,7 @@ io.on('connection',function(socket){
     socket.on('sendmes',function(data){
         io.to(socket.roomid).emit('post',socket.username,"      "+data);
     })
+    //disconnect-api
     socket.on('leave-room',function(roomid){
         socket.leave(socket.roomid);
         socket.emit('disconnect');
@@ -57,14 +58,26 @@ io.on('connection',function(socket){
         }
         io.to(socket.roomid).emit('update',local);
     })
+    //private-message-api
     socket.on('private',function(data,id){
         var receive='To '+id;
         var sender ='From '+socket.username;
         socket.emit('post',receive,data);
         io.to(ID[id]).emit('post',sender,data);
     })
+    //videocall-api
+    socket.on('peer-id',function(data){
+        socket.peerid=data;
+    })
+
+    socket.on('request',function(calling){
+        socket.to(ID[calling]).emit('response',socket.username);
+    })
+    socket.on('accept',function(data,name){
+        socket.to(ID[name]).emit('ok',data);
+    })
 })
 
 http.listen(process.env.PORT||3000,function(){
-    console.log('Sever is running on port 3000');
+    console.log('Sever is running on port '+process.env.PORT);
 })
