@@ -1,4 +1,4 @@
-const mediaStreamConstraints = {
+{const mediaStreamConstraints = {
   video: true,
   audio: true
 };
@@ -11,7 +11,6 @@ peer.on('open', function(id) {
   socket.emit('peer-id',peer.id);
   console.log('My peer ID is: ' + id);
 });
-
 socket.on('response',function(data){
   //accept or decline
   //console.log(data);
@@ -32,6 +31,7 @@ peer.on('call',function(call){
     remoteVideo.srcObject=remoteStream;
   })
 });
+
 //stream
 function sendrequest(){
   navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
@@ -49,4 +49,8 @@ function response(data){
     localVideo.srcObject=stream;
     socket.emit('accept',peer.id,data)
 })
+}
+function close(){
+  $('#videomodal').modal('hide');
+}
 }

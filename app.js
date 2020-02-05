@@ -4,11 +4,8 @@ var http=require('http').createServer(app);
 var io= require('socket.io')(http);
 app.use(express.static('public'));
 app.get('/',function(req,res){
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/new_index.html');
 });
-app.get('/facetime',function(req,res){
-    res.sendFile(__dirname+'/public/html/facetime.html');
-})
 var Userlist={};
 var ID={};
 var room={};
@@ -49,6 +46,7 @@ io.on('connection',function(socket){
         }
         io.to(socket.roomid).emit('update',local);
     })
+
     socket.on('disconnect',function(){
         delete Userlist[socket.username];
         io.to(socket.roomid).emit('leave',socket.username+' has left');

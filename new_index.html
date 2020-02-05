@@ -10,24 +10,50 @@
             <script src="https://cdn.jsdelivr.net/npm/peerjs@0.3.20/dist/peer.min.js"></script>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
             <link rel="stylesheet" href="css/style.css">
+            <script src="js/chatroom.js"></script>
     </head>
+
     <body style="background-color:ghostwhite;">
-                <!-- div modal -->
-        <div id="videomodal" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog"aria-hidden="true">
-            <div class="modal-ku" role="document">
+            <!-- Modal -->
+            <div class="modal fade bd-example-modal-xl" id="videomodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
-                    <h1>Realtime communication with WebRTC</h1>
-                        <div class="row">
-                        <div class="col">
-                            <video id="localVideo" autoplay></video>
-                        </div>
-                        <div class="col">
-                            <video id="remoteVideo" autoplay></video>
-                        </div>
-                        </div>
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Realtime communication with WebRTC</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body container-fluid">
+                        <div class="row d-flex justify-content-center">
+                            <div>
+                            <video class="float" style="height: 100px;; width: 100px; z-index: 0; position: absolute;" id="localVideo" autoplay></video>
+                                <video style="max-width: 100%;" id="remoteVideo" autoplay></video>
+                            </div>
+                            </div>
+                    </div>
                     <div class="modal-footer">
-                        <button id="modalclose" type="button" class="btn btn-secondary" data-dismiss="modal" data-target="#videomodal">Close</button>
-                    </div >
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        <h3 class="text-center" >Chat Apps</h3>
+        <div class="container-fluid">
+            <div class="row mb-1" >
+                <div class="col-4">
+                    <input type="text" class="form-control" id="Username" placeholder="Username">
+                </div>
+                <div class="col-1">
+                    <button type="button" id="Save" class="btn btn-primary btn-block">Save</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <input type="text" class="form-control" id="Room" placeholder="Room">
+                </div>
+                <div class="col-1">
+                    <button type="button" id="join" class="btn btn-primary btn-block">Join</button>
                 </div>
             </div>
         </div>
@@ -56,7 +82,7 @@
             </div>
             </form>
           </div>
+          <script src="js/client.js"></script>
     </body>
-    <script src="js/chatroom.js"></script>
-    <script src="js/client.js"></script>
+
 </html>
