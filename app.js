@@ -4,7 +4,7 @@ var http=require('http').createServer(app);
 var io= require('socket.io')(http);
 app.use(express.static('public'));
 app.get('/',function(req,res){
-    res.sendFile(__dirname + '/new_index.html');
+    res.sendFile(__dirname + '/index.html');
 });
 var Userlist={};
 var ID={};
