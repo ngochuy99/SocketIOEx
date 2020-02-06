@@ -26,7 +26,7 @@
 
             //Notify A member joined chatroom
             socket.on('notify',function(username){
-            $('#messages').append('<li><b class="text-white">'+username+'</b></li>');
+            $('#messages').append('<li><b class="text-danger">'+username+'</b></li>');
             $('#box').scrollTop($('#box').height());
             })
 
@@ -64,7 +64,7 @@
         });
             //Send messages to chatroom
             socket.on('post',function(name,data){
-            $("#messages").append('<div><b class="text-light">'+name+'</b>:<br>'+data);
+            $("#messages").append('<div class="text-danger"><b class="text-danger">'+name+'</b>:<br>'+data);
             $('#box').stop().animate ({scrollTop: $('#box')[0].scrollHeight});
             $('#m').focus();
             })
@@ -72,7 +72,7 @@
             socket.on('select',function(list){
                 console.log(list);
             $('#id').empty();
-            $('#id').append('<option>Chatroom</option>');
+            $('#id').append('<option >Chatroom</option>');
             $.each(list,function(user){
                 if(user!='null'&&user!=clientname)
                 $('#id').append('<option>'+user+'</option>');
@@ -83,12 +83,12 @@
             $('#users').empty();
             $.each(list,function(user){
                 if(user!='null')
-                $('#users').append('<div>'+user+'</div>');
+                $('#users').append('<div class="text-danger">'+user+'</div>');
             })
             })
             //Detect a Member left the room
             socket.on('leave',function(data){
-            $('#messages').append('<li><b class="text-white">'+data+'</b></li>');
+            $('#messages').append('<li><b class="text-danger">'+data+'</b></li>');
             $('#box').stop ().animate ({scrollTop: $('#box')[0].scrollHeight});
             })
             $('#Save').click(function(){

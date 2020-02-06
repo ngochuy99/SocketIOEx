@@ -94,6 +94,9 @@ io.on('connection',function(socket){
         io.emit('select',Userlist);
         console.log(Userlist);
     })
+    socket.on('deny',function(name){
+        socket.to(ID[name]).emit('not-ok');
+    })
 })
 
 http.listen(process.env.PORT||3000,function(){

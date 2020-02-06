@@ -1,5 +1,5 @@
 {const mediaStreamConstraints = {
-  video: true,
+  video: {facingMode :'user'},
   audio: true
 };
 //set local media
@@ -14,9 +14,21 @@ peer.on('open', function(id) {
 });
 socket.on('response',function(data){
   //accept or decline
-  //console.log(data);
-  $('#videomodal').modal('show');
-  response(data);
+  $('#caller').append('<h3 class="text-danger">'+data+' is calling </h3><br>');
+  $('#call-incoming').modal('show');
+  $('#accept').click(function(){
+    $('#call-incoming').modal('hide');
+    $('#videomodal').modal('show');
+    response(data);
+    $('#caller').val('');
+  })
+  $('#deny').click(function(){
+    socket.emit('deny',data);
+  })
+})
+socket.on('not-ok',function(){
+  $('#videomodal').modal('hide');
+  window.alert('The call was refused!');
 })
 socket.on('ok',function(data){
     var call=peer.call(data,localStream);
