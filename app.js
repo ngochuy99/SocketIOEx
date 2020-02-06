@@ -77,20 +77,25 @@ io.on('connection',function(socket){
     socket.on('change-name',function(newname){
         var oldname=socket.username;
         delete Userlist[oldname];
+        Userlist[newname]=newname;
         ID[newname]=ID[oldname];
         delete ID[oldname];
         room[newname]=room[oldname];
         delete room[oldname];
         socket.username=newname;
+        socket.join(room[newname]);
+        socket.emit('notify','You have joined chatroom ' +socket.roomid);
+        socket.broadcast.to(socket.roomid).emit('notify',socket.username+' have connected!');
         var local={};
         for(people in Userlist){
             if(room[people]==socket.roomid)  local[people]=people;
         }
         io.to(socket.roomid).emit('update',local);
-        io.emit('select',Userlist,socket.username);
+        io.emit('select',Userlist);
+        console.log(Userlist);
     })
 })
 
-app.listen(process.env.PORT||3000,function(){
+http.listen(process.env.PORT||3000,function(){
     console.log('Sever is running on port '+process.env.PORT);
 })

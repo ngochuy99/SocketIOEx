@@ -65,11 +65,12 @@
             //Send messages to chatroom
             socket.on('post',function(name,data){
             $("#messages").append('<div><b class="text-light">'+name+'</b>:<br>'+data);
-            $('#box').stop ().animate ({scrollTop: $('#box')[0].scrollHeight});
+            $('#box').stop().animate ({scrollTop: $('#box')[0].scrollHeight});
             $('#m').focus();
             })
             //Update Private message destination
             socket.on('select',function(list){
+                console.log(list);
             $('#id').empty();
             $('#id').append('<option>Chatroom</option>');
             $.each(list,function(user){
@@ -91,7 +92,8 @@
             $('#box').stop ().animate ({scrollTop: $('#box')[0].scrollHeight});
             })
             $('#Save').click(function(){
-                console.log('changename');
+                clientname=$('#Username').val();
+                $('#Save').prop("disabled",true);
                 socket.emit('change-name',$('#Username').val());
             })
         })
