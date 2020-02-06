@@ -90,14 +90,8 @@
             $('#messages').append('<li><b class="text-white">'+data+'</b></li>');
             $('#box').stop ().animate ({scrollTop: $('#box')[0].scrollHeight});
             })
-            // $('#Save').click(function(){
-            //     var name,roomid;
-            //     num=Math.floor(Math.random() * 100000)
-            //     if(!(roomid=$("#Room").val()))
-            //     roomid="Guest";
-            //     name=$("Username").val();
-            //     clientname=name;
-            //     socket.emit('disconnect');
-                
-            // })
+            $('#Save').click(function(){
+                console.log('changename');
+                socket.emit('change-name',$('#Username').val());
+            })
         })

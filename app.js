@@ -74,6 +74,21 @@ io.on('connection',function(socket){
     socket.on('accept',function(data,name){
         socket.to(ID[name]).emit('ok',data);
     })
+    socket.on('change-name',function(newname){
+        var oldname=socket.username;
+        delete Userlist[oldname];
+        ID[newname]=ID[oldname];
+        delete ID[oldname];
+        room[newname]=room[oldname];
+        delete room[oldname];
+        socket.username=newname;
+        var local={};
+        for(people in Userlist){
+            if(room[people]==socket.roomid)  local[people]=people;
+        }
+        io.to(socket.roomid).emit('update',local);
+        io.emit('select',Userlist,socket.username);
+    })
 })
 
 http.listen(process.env.PORT||3000,function(){
