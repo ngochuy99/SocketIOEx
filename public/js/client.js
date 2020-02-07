@@ -1,5 +1,5 @@
 {const mediaStreamConstraints = {
-  video: {facingMode :'user'},
+  video: true,
   audio: true
 };
 //set local media
