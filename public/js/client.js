@@ -6,7 +6,6 @@ const mediaStreamConstraints = {
 const localVideo=document.querySelector('video#localVideo');
 const remoteVideo=document.querySelector('video#remoteVideo');
 var localStream;
-var call;
 var peer = new Peer({key: 'lwjd5qra8257b9'});
 peer.on('open', function(id) {
   socket.emit('peer-id',peer.id);
@@ -31,6 +30,12 @@ socket.on('not-ok',function(){
   window.alert('The call was refused!');
 })
 socket.on('ok',function(data){
+    $('#videomodal').modal('show');
+    navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
+    .then(stream=>{
+    localStream=stream;
+    localVideo.srcObject=stream;
+  })
     var call=peer.call(data,localStream);
     call.on('stream', (remoteStream) => {
       remoteVideo.srcObject = remoteStream
@@ -65,14 +70,7 @@ peer.on('call',function(call){
 function sendrequest(){
   console.log($('#id').val());
   if($('#id').val()!=='Chatroom'){
-    $('#videomodal').modal('show');
-    navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
-    .then(stream=>{
-    localStream=stream;
-    localVideo.srcObject=stream;
-    socket.emit('request',$('#id').val());  
-    console.log(localStream);
-  });
+  socket.emit('request',$('#id').val());  
   }
   else(window.alert("Call one person pls!"));
 }
