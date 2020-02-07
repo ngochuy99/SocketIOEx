@@ -93,5 +93,4 @@ function response(data){
 function handleerror(err){
   $('#videomodal').modal('hide');
   window.alert('Enable your webcam and micro!');
-
 }

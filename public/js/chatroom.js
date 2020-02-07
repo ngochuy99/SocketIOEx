@@ -94,6 +94,7 @@
             $('#Save').click(function(){
                 clientname=$('#Username').val();
                 $('#Save').prop("disabled",true);
+                $('#Username').prop("disabled",true);
                 socket.emit('change-name',$('#Username').val());
             })
         })
