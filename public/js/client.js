@@ -20,7 +20,7 @@ socket.on('response',function(data){
     $('#call-incoming').modal('hide');
     $('#videomodal').modal('show');
     response(data);
-    $('#caller').val('');
+    $('#caller').empty();
     $('#face-time').prop("disabled",true); 
   })
   $('#deny').click(function(){
