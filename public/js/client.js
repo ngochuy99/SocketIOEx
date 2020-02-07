@@ -1,4 +1,4 @@
-{const mediaStreamConstraints = {
+const mediaStreamConstraints = {
   video: true,
   audio: true
 };
@@ -83,5 +83,4 @@ function response(data){
     localVideo.srcObject=stream;
     socket.emit('accept',peer.id,data)
 })
-}
 }
