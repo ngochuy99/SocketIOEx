@@ -1,5 +1,5 @@
 {const mediaStreamConstraints = {
-  video: {facingMode :'user'},
+  video: true,
   audio: true
 };
 //set local media
@@ -25,6 +25,7 @@ socket.on('response',function(data){
   })
   $('#deny').click(function(){
     socket.emit('deny',data);
+    $('#caller').empty();
   })
 })
 socket.on('not-ok',function(){
@@ -42,7 +43,6 @@ socket.on('ok',function(data){
       $('#face-time').prop("disabled",false); 
     });
     call.on('close',function(){
-      console.log('close');
       localStream.getTracks().forEach(track=>track.stop());
       $('#face-time').prop("disabled",false); 
       $('#videomodal').modal('hide');
@@ -59,7 +59,6 @@ peer.on('call',function(call){
     $('#face-time').prop("disabled",false); 
   });
   call.on('close',function(){
-    console.log('close');
     localStream.getTracks().forEach(track=>track.stop());
     $('#face-time').prop("disabled",false); 
     $('#videomodal').modal('hide');
@@ -68,7 +67,6 @@ peer.on('call',function(call){
 
 //stream
 function sendrequest(){
-  console.log($('#id').val());
   if($('#id').val()!=='Chatroom'){
       $('#videomodal').modal('show');
       navigator.mediaDevices.getUserMedia(mediaStreamConstraints)

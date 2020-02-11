@@ -22,6 +22,15 @@
             socket.emit('leave-room',roomid);
             e.preventDefault();
             $('#room').empty().append('Room: '+roomid);
+            });
+            $('#Room').keypress(function(e){
+                if(e.which==13){
+                    if(!(roomid=$("#Room").val()))
+                    roomid="Guest";
+                    socket.emit('leave-room',roomid);
+                    e.preventDefault();
+                    $('#room').empty().append('Room: '+roomid);
+                    }
             })
 
             //Notify A member joined chatroom
@@ -50,7 +59,6 @@
                 var message=$('#m').val();
                 $('#m').val('');
                 e.preventDefault();
-                console.log($('#id').val())
                 if($('#id').val()!='Chatroom'){
                 socket.emit('private',message,$('#id').val());
                 }
@@ -70,7 +78,6 @@
             })
             //Update Private message destination
             socket.on('select',function(list){
-                console.log(list);
             $('#id').empty();
             $('#id').append('<option >Chatroom</option>');
             $.each(list,function(user){
@@ -91,10 +98,19 @@
             $('#messages').append('<li><b class="text-danger">'+data+'</b></li>');
             $('#box').stop ().animate ({scrollTop: $('#box')[0].scrollHeight});
             })
+            //change name
             $('#Save').click(function(){
                 clientname=$('#Username').val();
                 $('#Save').prop("disabled",true);
                 $('#Username').prop("disabled",true);
                 socket.emit('change-name',$('#Username').val());
+            })
+            $('#Username').keypress(function(e){
+                if(e.which==13){
+                clientname=$('#Username').val();
+                $('#Save').prop("disabled",true);
+                $('#Username').prop("disabled",true);
+                socket.emit('change-name',$('#Username').val());
+            }
             })
         })

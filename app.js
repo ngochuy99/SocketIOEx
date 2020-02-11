@@ -92,7 +92,6 @@ io.on('connection',function(socket){
         }
         io.to(socket.roomid).emit('update',local);
         io.emit('select',Userlist);
-        console.log(Userlist);
     })
     socket.on('deny',function(name){
         socket.to(ID[name]).emit('not-ok');
@@ -100,5 +99,5 @@ io.on('connection',function(socket){
 })
 
 http.listen(process.env.PORT||3000,function(){
-    console.log('Sever is running on port '+process.env.PORT);
+    console.log('Sever is running on port '+3000);
 })
