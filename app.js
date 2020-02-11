@@ -96,6 +96,13 @@ io.on('connection',function(socket){
     socket.on('deny',function(name){
         socket.to(ID[name]).emit('not-ok');
     })
+    //a person is typing
+    socket.on('typing',function(data){
+        io.to(socket.roomid).emit('noti-type',data);
+    })
+    socket.on('stop-typing',function(){
+        io.to(socket.roomid).emit('unnoti-type');
+    })
 })
 
 http.listen(process.env.PORT||3000,function(){

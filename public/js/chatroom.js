@@ -1,5 +1,6 @@
             var socket=io.connect();
             var clientname;
+            var type=false;
             socket.on('connect',function(){
             num=Math.floor(Math.random() * 100000)
             var name,roomid;
@@ -112,5 +113,32 @@
                 $('#Username').prop("disabled",true);
                 socket.emit('change-name',$('#Username').val());
             }
+            })
+            //A person is typing
+            $('#m').keyup(function(){
+                if($('#id').val()==='Chatroom'){    
+                    if(type==false){
+                        type=true;
+                        data=clientname+' is typing . . .';
+                        socket.emit('typing',data);
+                        timeout=setTimeout(CheckifTyping(),1000);
+                    }
+                    else{
+                        clearTimeout(timeout);
+                        timeout=setTimeout(CheckifTyping(),1000);
+                    }
+                }
+                })
+            function CheckifTyping(){
+                if(!$('#m').val()){
+                    type=false;
+                    socket.emit('stop-typing');
+                }
+            }
+            socket.on('noti-type',function(data){
+                $('#messages').append('<li><b class="text-warning" id="warn">'+data+'</b></li>');
+            })
+            socket.on('unnoti-type',function(){
+                $('#warn').parent().remove();
             })
         })
