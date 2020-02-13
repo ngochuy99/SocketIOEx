@@ -76,6 +76,13 @@ io.on('connection',function(socket){
     socket.on('accept',function(data,name){
         socket.to(ID[name]).emit('ok',data);
     })
+    socket.on('busy',function(name){
+        socket.to(ID[name]).emit('alr-busy');
+    })
+    socket.on('deny',function(name){
+        socket.to(ID[name]).emit('not-ok');
+    })
+    //change-name-api
     socket.on('change-name',function(newname){
         var oldname=socket.username;
         delete Userlist[oldname];
@@ -94,9 +101,6 @@ io.on('connection',function(socket){
         }
         io.to(socket.roomid).emit('update',local);
         io.emit('select',Userlist);
-    })
-    socket.on('deny',function(name){
-        socket.to(ID[name]).emit('not-ok');
     })
     //a person is typing
     socket.on('typing',function(data,name){
