@@ -14,6 +14,7 @@
         $(document).ready(function(){
             //init
             window.alert('Take a Name to start chatting!');
+            $('#Username').focus();
             //ClearChatbox
             $('#refresh').click(function(e){
             $('#messages').empty();
