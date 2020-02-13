@@ -100,10 +100,10 @@ io.on('connection',function(socket){
     })
     //a person is typing
     socket.on('typing',function(data,name){
-        io.to(socket.roomid).emit('noti-type',data,name);
+        socket.broadcast.to(socket.roomid).emit('noti-type',data,name);
     })
     socket.on('stop-typing',function(name){
-        io.to(socket.roomid).emit('unnoti-type',name);
+        socket.broadcast.to(socket.roomid).emit('unnoti-type',name);
     })
 })
 http.listen(process.env.PORT||3000,function(){
