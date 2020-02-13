@@ -70,3 +70,7 @@
         font-size: 12px; 
         text-align: center; 
     } 
+    td{
+        word-break: break-all;
+    }
+    

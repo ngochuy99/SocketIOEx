@@ -6,6 +6,8 @@ app.use(express.static('public'));
 app.get('/',function(req,res){
     res.sendFile(__dirname + '/index.html');
 });
+var emojiButton = require("@joeattardi/emoji-button");
+
 var Userlist={};
 var ID={};
 var room={};
@@ -97,14 +99,13 @@ io.on('connection',function(socket){
         socket.to(ID[name]).emit('not-ok');
     })
     //a person is typing
-    socket.on('typing',function(data){
-        io.to(socket.roomid).emit('noti-type',data);
+    socket.on('typing',function(data,name){
+        io.to(socket.roomid).emit('noti-type',data,name);
     })
-    socket.on('stop-typing',function(){
-        io.to(socket.roomid).emit('unnoti-type');
+    socket.on('stop-typing',function(name){
+        io.to(socket.roomid).emit('unnoti-type',name);
     })
 })
-
 http.listen(process.env.PORT||3000,function(){
     console.log('Sever is running on port '+3000);
 })
