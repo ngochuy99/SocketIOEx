@@ -6,7 +6,7 @@
     const localVideo=document.querySelector('video#MyVideo');
     var remoteVideo;
     var localStream;
-    var peerlist=[]
+    var peerlist=[],member=[];
     var number=2;
     const unique = (value, index, self) => {
         return self.indexOf(value) === index
@@ -18,8 +18,8 @@
     });
     socket.on('group-response',function(list,caller){
             $('#groupmodal').modal('show');
-            $('#addmem').prop("disabled",true);
-            $('#add-member').prop("disabled",true); 
+            $('#addmem').prop("disabled",false);
+            $('#add-member').prop("disabled",false); 
             navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
                 .then(stream=>{
                     localVideo.srcObject=stream;
@@ -58,7 +58,7 @@
                         $('#add-member').prop("disabled",false); 
                     })   
                     list.push(peer.id);
-                    socket.emit('list-update',list,caller);   
+                    socket.emit('list-update',list,caller,clientname);   
         })
     })
     peer.on('call',function(call){
@@ -99,8 +99,14 @@
         $('#add-member').prop("disabled",false); 
     })
     //member list update 
-    socket.on('host-update',function(list){
+    socket.on('host-update',function(list,name){
         peerlist=list.filter(unique);
+        member.push(name);
+        socket.emit('member-update',member,peerlist);
+    })
+    socket.on('mem-update',function(list){
+        peerlist=list;
+        console.log(peerlist);
     })
     function HostNewGroup(){
         navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
