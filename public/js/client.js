@@ -5,14 +5,15 @@
 //set local media
 const localVideo=document.querySelector('video#localVideo');
 const remoteVideo=document.querySelector('video#remoteVideo');
-var localStream;
-var call;
-var busy=false;
+var localStream,MyStream;
+var call,number=1;
+var peerid=[],Allstream=[];
+var busy=false,group=false;
 var peer = new Peer({key: 'lwjd5qra8257b9'});
-peer.on('open', function(id) {
+peer.on('open', function(id){
   socket.emit('peer-id',peer.id);
-  // console.log('My peer ID is: ' + id);
 });
+//one-to-one call
 socket.on('response',function(data){
   if(busy===true){
     socket.emit('busy',data);
@@ -45,7 +46,7 @@ socket.on('ok',function(data){
     var call=peer.call(data,localStream);
     call.on('stream', (remoteStream) => {
       busy=true;
-      remoteVideo.srcObject = remoteStream
+      remoteVideo.srcObject = remoteStream;
     });
     $("#videomodal").on("hidden.bs.modal", function() {
       call.close();
@@ -109,8 +110,8 @@ function response(data){
     socket.emit('accept',peer.id,data)
 }).catch(handleerror);
 }
-}
 function handleerror(err){
   $('#videomodal').modal('hide');
   window.alert('Enable your webcam and micro!');
+}
 }

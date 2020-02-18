@@ -6,12 +6,16 @@ app.use(express.static('public'));
 app.get('/',function(req,res){
     res.sendFile(__dirname + '/index.html');
 });
-var emojiButton = require("@joeattardi/emoji-button");
-
+app.get('/snake',function(req,res){
+    res.sendFile(__dirname + '/public/game/snake.html');
+});
+app.get('/groupchat',function(req,res){
+    res.sendFile(__dirname+'/public/html/groupchat.html');
+})
 var Userlist={};
 var ID={};
 var room={};
-//altenative iosocket
+var PeerID={};
 io.on('connection',function(socket){
     socket.on('NewUser',function(username,id,roomid){
         socket.username=username;
@@ -51,6 +55,7 @@ io.on('connection',function(socket){
 
     socket.on('disconnect',function(){
         delete Userlist[socket.username];
+        delete room[socket.username];
         io.to(socket.roomid).emit('leave',socket.username+' has left');
         var local={};
         for(people in Userlist){
@@ -70,7 +75,7 @@ io.on('connection',function(socket){
         socket.peerid=data;
     })
 
-    socket.on('request',function(calling){
+    socket.on('request',function(calling,stream){
         socket.to(ID[calling]).emit('response',socket.username);
     })
     socket.on('accept',function(data,name){
@@ -81,6 +86,18 @@ io.on('connection',function(socket){
     })
     socket.on('deny',function(name){
         socket.to(ID[name]).emit('not-ok');
+    })
+    //videocall-api-group
+    socket.on('require-member',function(require_name){
+        var roomname=room[require_name];
+        var members=[]
+        for (member in room){
+            if(room[member]===roomname&&member!=require_name){
+                members.push(member);
+            }
+        }
+        // socket.emit('member',members);
+        console.log(members);
     })
     //change-name-api
     socket.on('change-name',function(newname){
@@ -108,6 +125,13 @@ io.on('connection',function(socket){
     })
     socket.on('stop-typing',function(name){
         socket.broadcast.to(socket.roomid).emit('unnoti-type',name);
+    })
+    //group-video-call-api
+    socket.on('group-request',function(list,name){
+        socket.to(ID[name]).emit('group-response',list,socket.username);
+    })
+    socket.on('list-update',function(list,host){
+        socket.to(ID[host]).emit('host-update',list);
     })
 })
 http.listen(process.env.PORT||3000,function(){

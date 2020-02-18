@@ -10,13 +10,12 @@
 			emojis.push('&#'+x+';')
 		}
 	}
-	console.log(emojis);
 	$.fn.emoji = function (params) {
 		var defaults = {
 			button: '&#x1F642;',
 			place: 'before',
 			emojis,
-			fontSize: '20px',
+			fontSize: '25px',
 			listCSS: {position: 'absolute', border: '1px solid gray', 'background-color': '#fff', display: 'none'},
 			rowSize: 10,
 		};

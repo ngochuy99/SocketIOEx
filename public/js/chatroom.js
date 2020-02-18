@@ -1,4 +1,4 @@
-            var socket=io.connect();
+            var socket=io.connect('http://localhost:3000/');
             var clientname;
             var type=false;
 
@@ -83,6 +83,7 @@
             //Send messages to chatroom
             socket.on('post',function(name,data){
             if($(".text-warning").length){
+                //Check if someone is typing
                 $(".text-warning").first().before('<div class="text-danger"><b class="text-danger">'+name+'</b>:<br>'+data);
             }
             else{
@@ -93,11 +94,11 @@
             })
             //Update Private message destination
             socket.on('select',function(list){
-            $('#id').empty();
-            $('#id').append('<option >Chatroom</option>');
+            $('.id').empty();
+            $('.id').append('<option >Chatroom</option>');
             $.each(list,function(user){
                 if(user!='null'&&user!=clientname)
-                $('#id').append('<option>'+user+'</option>');
+                $('.id').append('<option>'+user+'</option>');
             })
             })
             //update online Member
@@ -123,11 +124,12 @@
                 clientname=$('#Username').val();
                 $('#Save').prop("disabled",true);
                 $('#Username').prop("disabled",true);
-                $('#id').prop("disabled",false);
+                $('.id').prop("disabled",false);
                 $('#form-submit').prop("disabled",false);
                 $('#m').prop("disabled",false);
                 $('#face-time').prop("disabled",false);
                 $('#emoji').prop('disabled',false);
+                $('#game').prop('disabled',false);
                 socket.emit('change-name',$('#Username').val());
             })
             $('#Username').keypress(function(e){
@@ -135,11 +137,12 @@
                 clientname=$('#Username').val();
                 $('#Save').prop("disabled",true);
                 $('#Username').prop("disabled",true);
-                $('#id').prop("disabled",false);
+                $('.id').prop("disabled",false);
                 $('#form-submit').prop("disabled",false);
                 $('#m').prop("disabled",false);
                 $('#face-time').prop("disabled",false);
                 $('#emoji').prop('disabled',false);
+                $('#game').prop('disabled',false);
                 socket.emit('change-name',$('#Username').val());
             }
             })
@@ -171,14 +174,4 @@
             socket.on('unnoti-type',function(name){
                 $('#'+name).remove();
             })
-            //add emoto chat
-            $('#emoji').change(function(){
-                var text=$('#m').val();
-                text+=$(this).val();
-                $('#m').val(text);
-            })
         })
-        function addemoji(emojRange){
-            
-            }
-

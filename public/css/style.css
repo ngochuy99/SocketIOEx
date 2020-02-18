@@ -73,4 +73,7 @@
     td{
         word-break: break-all;
     }
+    .modal-lg {
+    max-width: 80%;
+}
     

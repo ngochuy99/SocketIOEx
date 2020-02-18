@@ -11,38 +11,70 @@
     <script src="https://cdn.jsdelivr.net/npm/peerjs@0.3.20/dist/peer.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/chatroom.js"></script>
     <script src="js/inputEmoji.js"></script>
+    <script src="js/emoji-init.js"></script>
+    <script src="js/chatroom.js"></script>
     <link rel="shortcut icon" href="icon/favicon.ico" type="image/x-icon">
 </head>
 
 <body style="background-color: rgba(18, 166, 224, 0.2);  background-image: url('../background/nightsky2.jpg'); ">
-    <!-- Modal -->
-    <div class="modal fade bd-example-modal-xl" id="videomodal" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header d-flex justify-content-center">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Realtime communication with WebRTC</h5>
-                    <button id="close" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body container-fluid">
-                    <div class="row d-flex justify-content-center">
-                        <div>
-                            <video class="float" style="max-height: 100%; height: 100px;; width: 100px; z-index: 0; position: absolute;"
-                                id="localVideo" autoplay muted controls="true" playsinline></video>
-                            <video style="max-width: 100%;" id="remoteVideo" autoplay controls="true" playsinline></video>
-                        </div>
+        <!-- Modal -->
+        <div class="modal fade bd-example-modal-xl" id="videomodal" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-center">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Realtime communication with WebRTC</h5>
+                        <button id="close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button id="close" type="button" class="btn btn-danger btn-circle btn-xl ml-5" data-dismiss="modal">End Call</button on>
+                    <div class="modal-body container-fluid">
+                        <div class="row d-flex justify-content-center">
+                            <div>
+                                <video class="float" style="max-height: 100%; height: 100px;; width: 100px; z-index: 0; position: absolute;"
+                                    id="localVideo" autoplay muted controls="true" playsinline></video>
+                                <video style="max-width: 100%;" id="remoteVideo" autoplay controls="true" playsinline></video>
+                            </div>
+                        </div>
+                        <video width="500" height="250" controls id="RemoteVideo1"></video>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="close" type="button" class="btn btn-danger btn-circle btn-xl ml-5" data-dismiss="modal">End Call</button on>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+        <!-- Group chat modal -->
+        <div class="modal fade bd-example-modal-lg" id="groupmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="container ">
+                    <div class="row mb-3 d-flex justify-content-center">
+                        <div class="col-5.5 mr-2">
+                            <video width="500" height="250" controls id="RemoteVideo2" autoplay></video>
+                        </div>
+                        <div class="col-5.5 ">
+                            <video width="500" height="250" controls id="RemoteVideo3" autoplay></video>
+                        </div>
+                    </div>
+                    <div class="row mb-3 d-flex justify-content-center">
+                        <div class="col-5.5 mr-2">
+                            <video width="500" height="250" controls id="RemoteVideo4" autoplay></video>
+                        </div>
+                        <div class="col-5.5 ">
+                            <video width="500" height="250" controls id="RemoteVideo5" autoplay></video>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-center">
+                        <video width="400" height="200" controls muted id="MyVideo" autoplay></video>
+                        <select id="add-member" class="col-2 ml-5 mr-2 id" style="height: 50px;" ></select>
+                        <button id="addmem" class="btn btn-primary" style="height: 50px;" onclick="AddMember()">Add</button>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
         <!-- Modal call incoming-->
         <div class="modal fade" id="call-incoming" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -60,7 +92,7 @@
             </div>
             </div>
         </div>
-    <div class="d-flex justify-content-center bg-danger mb-1"  >
+    <div class="d-flex justify-content-center bg-danger mb-1">
         <img src="icon/chat.png" width="50" height="50" onclick="window.alert('Developed with WebRTC, Socket.IO, Peerjs and bootstrap 4!')">
     </div>
     <div class="container-fluid">
@@ -101,18 +133,24 @@
     <div>
         <form class='form'>
             <div class="form-group row ml-2">
-                <select id="id" class="form-control col-7" disabled></select>
+                <select id="id" class="form-control col-7 id" disabled></select>
             </div>
             <div class="form-group row ml-2">
                 <input disabled id="m" class="form-control col-7" placeholder="Enter your message" required
                     style="width: 83.75%;">
-                <button disabled type="button" class="fa fa-send col-1 ml-1" id="form-submit"></button>
-                <button disabled onclick="sendrequest()" type="button" id="face-time"
-                    class="col-1 ml-1 fa fa-video-camera"></button>
+                <button disabled type="button" class="fa fa-send col-0.5 ml-1" id="form-submit"></button>
+                <button disabled onclick="sendrequest()" type="button" id="face-time" class="col-0.5 ml-1 fa fa-video-camera"></button>
+                <div class="btn-group dropup">
+                    <button disabled type="button" id="game" class="col-0.5 ml-1  fa fa-gamepad dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" onclick="window.open('http://localhost:3000/snake')">Snake</a>
+                    </div>
+                  </div>
+                <button type="button" id="group-chat" class="col-0.5 ml-1" data-toggle="modal" data-target="#groupmodal" onclick="HostNewGroup()"></button>
             </div>
         </form>
     </div>
     <script src="js/client.js"></script>
-    <script src="js/emoji-init.js"></script>
+    <script src="js/group-chat.js"></script>
 </body>
 </html>
