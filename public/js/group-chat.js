@@ -15,7 +15,6 @@
     var peer = new Peer({key: 'lwjd5qra8257b9'});
     peer.on('open', function(id){
         socket.emit('peer-id',peer.id);
-        console.log(peer.id);
     });
     socket.on('group-response',function(list,caller){
         if(busy===true){
@@ -26,7 +25,6 @@
             $('#call-incoming').modal('show');
             //close
             $("#groupmodal").on("hidden.bs.modal",function(){
-                console.log('modal hide!');
                 number=2;
                 localStream.getTracks().forEach(track=>track.stop());
                 peerlist=[];
@@ -93,7 +91,6 @@
                                 $("#groupmodal").on("hidden.bs.modal",function(){
                                     call.close();
                                     busy=false;
-                                    console.log('modal hide!');
                                     number=2;
                                     localStream.getTracks().forEach(track=>track.stop());
                                     peerlist=[];
@@ -148,7 +145,6 @@
         $("#groupmodal").on("hidden.bs.modal",function(){
             call.close();
             busy=false;
-            console.log('modal hide!');
             number=2;
             localStream.getTracks().forEach(track=>track.stop());
             peerlist=[];
@@ -179,9 +175,9 @@
             localStream=stream;
         })
         peerlist.push(peer.id);
+        busy=true;
         $("#groupmodal").on("hidden.bs.modal",function(){
             busy=false;
-            console.log('modal hide!');
             number=2;
             localStream.getTracks().forEach(track=>track.stop());
             peerlist=[];

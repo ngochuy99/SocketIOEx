@@ -170,7 +170,6 @@
                 }
             }
             socket.on('noti-type',function(data,name){
-                console.log(data);
                 $('#messages').append('<tr><td><b class="text-warning" id='+name+'>'+data+'</b></li></tr>');
             })
             socket.on('unnoti-type',function(name){
