@@ -18,6 +18,10 @@
         console.log(peer.id);
     });
     socket.on('group-response',function(list,caller){
+        if(busy===true){
+            socket.emit('busy',caller);
+            }
+        else{
             $('#caller').append('<h3 class="text-danger">'+caller+' is calling (group)</h3><br>');
             $('#call-incoming').modal('show');
             //close
@@ -43,6 +47,7 @@
             })
             //accept
             $('#accept').click(function(event){
+                busy=true;
                 list=list.filter(unique);
                 event.stopPropagation();
                 event.stopImmediatePropagation();
@@ -91,6 +96,7 @@
                                 remoteVideo.srcObject=remoteStream;
                                 $("#groupmodal").on("hidden.bs.modal",function(){
                                     call.close();
+                                    busy=false;
                                     console.log('modal hide!');
                                     number=2;
                                     localStream.getTracks().forEach(track=>track.stop());
@@ -109,11 +115,12 @@
                         socket.emit('list-update',list,caller,clientname);   
             })
             })
+        }
     })
     peer.on('call',function(call){
         call.answer(localStream);
         call.on('stream',(remoteStream)=>{
-            console.log(number);
+            busy=true
             if(number==2||number==3){
                 if(number==2){
                     $('#row11').append('<video width="500" height="250"  id="RemoteVideo2" autoplay></video>')
@@ -144,6 +151,7 @@
         })
         $("#groupmodal").on("hidden.bs.modal",function(){
             call.close();
+            busy=false;
             console.log('modal hide!');
             number=2;
             localStream.getTracks().forEach(track=>track.stop());
@@ -172,6 +180,19 @@
             localStream=stream;
         })
         peerlist.push(peer.id);
+        $("#groupmodal").on("hidden.bs.modal",function(){
+            busy=false;
+            console.log('modal hide!');
+            number=2;
+            localStream.getTracks().forEach(track=>track.stop());
+            peerlist=[];
+            $('#row11').empty();
+            $('#row12').empty();
+            $('#row21').empty();
+            $('#row22').empty();
+            $('#addmem').prop("disabled",false);
+            $('#add-member').prop("disabled",false); 
+        })
         return
     }
     function AddMember(){
