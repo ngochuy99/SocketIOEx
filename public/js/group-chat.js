@@ -20,6 +20,22 @@
     socket.on('group-response',function(list,caller){
             $('#caller').append('<h3 class="text-danger">'+caller+' is calling (group)</h3><br>');
             $('#call-incoming').modal('show');
+            //close
+            $("#groupmodal").on("hidden.bs.modal",function(){
+                console.log('modal hide!');
+                number=2;
+                localStream.getTracks().forEach(track=>track.stop());
+                peerlist=[];
+                $('#row11').empty();
+                $('#row12').empty();
+                $('#row21').empty();
+                $('#row22').empty();
+                $('#addmem').prop("disabled",false);
+                $('#add-member').prop("disabled",false); 
+            })
+            $("#call-incoming").on("hide.bs.modal",function(){
+                $('#caller').empty(); 
+            })
             //decline
             $('#deny').click(function(){
                 $('#caller').empty();
@@ -27,14 +43,15 @@
             })
             //accept
             $('#accept').click(function(event){
-                console.log(list);
+                list=list.filter(unique);
                 event.stopPropagation();
                 event.stopImmediatePropagation();
                 //Fix occur many times
                 $('#call-incoming').modal('hide');
                 $('#groupmodal').modal('show');
                 $('#addmem').prop("disabled",false);
-                $('#add-member').prop("disabled",false); 
+                $('#add-member').prop("disabled",false);
+                $('#caller').empty(); 
                 navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
                     .then(stream=>{
                         localVideo.srcObject=stream;
@@ -42,35 +59,52 @@
                     }).then(function(){
                         var call;
                         for(var member=0;member<list.length;member++){
-                            call=peer.call(list[member],localStream);
-                            call.on('stream',(remoteStream)=>{
-                                console.log(remoteStream)
-                            if(number==2||number==3){
-                                remoteVideo=document.querySelector('video#RemoteVideo2');
+                            if(list[member]!=peer.id){
+                                call=peer.call(list[member],localStream);
+                                call.on('stream',(remoteStream)=>{
+                                    if(number==2||number==3){
+                                        if(number==2){
+                                            $('#row11').append('<video width="500" height="250"  id="RemoteVideo2" autoplay></video>')
+                                        }
+                                        remoteVideo=document.querySelector('video#RemoteVideo2');
+                                    }
+                                    else if(number==4||number==5){
+                                        if(number==4){
+                                            $('#row12').append('<video width="500" height="250"  id="RemoteVideo3" autoplay></video>')
+                                        }
+                                        remoteVideo=document.querySelector('video#RemoteVideo3');
+                                    }
+                                    else if(number==6||number==7){
+                                        if(number==6){
+                                            $('#row21').append('<video width="500" height="250"  id="RemoteVideo4" autoplay></video>')
+                                        }
+                                        remoteVideo=document.querySelector('video#RemoteVideo4');
+                                    }
+                                    else if(number==8||number==9){
+                                        if(number==8){
+                                            $('#row22').append('<video width="500" height="250"  id="RemoteVideo5" autoplay></video>')
+                                        }
+                                        remoteVideo=document.querySelector('video#RemoteVideo5');
+                                    }
+                                //function call.on('stream') will occur twice cause the stream has two tracks include video and audio!
+                                number++;
+                                remoteVideo.srcObject=remoteStream;
+                                $("#groupmodal").on("hidden.bs.modal",function(){
+                                    call.close();
+                                    console.log('modal hide!');
+                                    number=2;
+                                    localStream.getTracks().forEach(track=>track.stop());
+                                    peerlist=[];
+                                    $('#row11').empty();
+                                    $('#row12').empty();
+                                    $('#row21').empty();
+                                    $('#row22').empty();
+                                    $('#addmem').prop("disabled",false);
+                                    $('#add-member').prop("disabled",false); 
+                                })
+                                })
                             }
-                            else if(number==4||number==5){
-                                remoteVideo=document.querySelector('video#RemoteVideo3');
-                            }
-                            else if(number==6||number==7){
-                                remoteVideo=document.querySelector('video#RemoteVideo4');
-                            }
-                            else if(number==8||number==9){
-                                remoteVideo=document.querySelector('video#RemoteVideo5');
-                            }
-                            //function call.on('stream') will occur twice cause the stream has two tracks include video and audio!
-                            number++;
-                            remoteVideo.srcObject=remoteStream;
-                            })
-                            }
-                        $("#groupmodal").on("hidden.bs.modal",function(){
-                            call.close();
-                            console.log('modal hide!');
-                            number=2;
-                            localStream.getTracks().forEach(track=>track.stop());
-                            peerlist=[];
-                            $('#addmem').prop("disabled",false);
-                            $('#add-member').prop("disabled",false); 
-                        })   
+                        }   
                         list.push(peer.id);
                         socket.emit('list-update',list,caller,clientname);   
             })
@@ -79,16 +113,29 @@
     peer.on('call',function(call){
         call.answer(localStream);
         call.on('stream',(remoteStream)=>{
+            console.log(number);
             if(number==2||number==3){
+                if(number==2){
+                    $('#row11').append('<video width="500" height="250"  id="RemoteVideo2" autoplay></video>')
+                }
                 remoteVideo=document.querySelector('video#RemoteVideo2');
             }
             else if(number==4||number==5){
+                if(number==4){
+                    $('#row12').append('<video width="500" height="250"  id="RemoteVideo3" autoplay></video>')
+                }
                 remoteVideo=document.querySelector('video#RemoteVideo3');
             }
             else if(number==6||number==7){
+                if(number==6){
+                    $('#row21').append('<video width="500" height="250"  id="RemoteVideo4" autoplay></video>')
+                }
                 remoteVideo=document.querySelector('video#RemoteVideo4');
             }
             else if(number==8||number==9){
+                if(number==8){
+                    $('#row22').append('<video width="500" height="250"  id="RemoteVideo5" autoplay></video>')
+                }
                 remoteVideo=document.querySelector('video#RemoteVideo5');
             }
             //function call.on('stream') will occur twice cause the stream has two tracks include video and audio!
@@ -96,22 +143,18 @@
             number++;
         })
         $("#groupmodal").on("hidden.bs.modal",function(){
-            console.log('modal hide!');
             call.close();
+            console.log('modal hide!');
             number=2;
             localStream.getTracks().forEach(track=>track.stop());
             peerlist=[];
+            $('#row11').empty();
+            $('#row12').empty();
+            $('#row21').empty();
+            $('#row22').empty();
             $('#addmem').prop("disabled",false);
             $('#add-member').prop("disabled",false); 
         })
-    })
-    $("#groupmodal").on("hidden.bs.modal",function(){
-        console.log('modal hide!');
-        number=2;
-        localStream.getTracks().forEach(track=>track.stop());
-        peerlist=[];
-        $('#addmem').prop("disabled",false);
-        $('#add-member').prop("disabled",false); 
     })
     //member list update 
     socket.on('host-update',function(list,name){
@@ -133,7 +176,21 @@
     }
     function AddMember(){
         des=$('#add-member').val();
+        if(des==="Chatroom"){
+            window.alert('Only person available!');
+            return;
+        }
+        for(var i=0;i<member.length;i++){
+            if(member[i]==des){
+                window.alert('Already in room!');
+                return;
+            }
+        }
+        if(number<10){
         socket.emit('group-request',peerlist,des);
-        return
+        }
+        else{
+            window.alert('Only available up to 5 people!');
+        }
     }
     }
