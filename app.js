@@ -15,7 +15,6 @@ app.get('/groupchat',function(req,res){
 var Userlist={};
 var ID={};
 var room={};
-var PeerID={};
 io.on('connection',function(socket){
     socket.on('NewUser',function(username,id,roomid){
         socket.username=username;
@@ -90,6 +89,12 @@ io.on('connection',function(socket){
     })
     //change-name-api
     socket.on('change-name',function(newname){
+        for(name in Userlist){
+            if(name==newname){
+                socket.emit('name-invalid');
+                return;
+            }
+        }
         var oldname=socket.username;
         delete Userlist[oldname];
         Userlist[newname]=newname;

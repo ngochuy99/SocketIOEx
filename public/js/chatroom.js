@@ -148,6 +148,11 @@
                 socket.emit('change-name',$('#Username').val());
             }
             })
+            socket.on('name-invalid',function(){
+                window.alert('Name has already exist!');
+                $('#Save').prop("disabled",false);
+                $('#Username').prop("disabled",false);
+            })
             //A person is typing
             $('#m').keyup(function(){
                 if($('#id').val()==='Chatroom'){    

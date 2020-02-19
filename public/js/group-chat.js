@@ -28,6 +28,7 @@
                 number=2;
                 localStream.getTracks().forEach(track=>track.stop());
                 peerlist=[];
+                member=[];
                 $('#row11').empty();
                 $('#row12').empty();
                 $('#row21').empty();
@@ -99,7 +100,7 @@
         peerlist=list;
     })
     socket.on('group-alr-busy',function(){
-        window.alert('Already in room!');
+        window.alert('Already in call!');
     })
     function HostNewGroup(){
         navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
@@ -114,6 +115,7 @@
             number=2;
             localStream.getTracks().forEach(track=>track.stop());
             peerlist=[];
+            member=[];
             $('#row11').empty();
             $('#row12').empty();
             $('#row21').empty();
@@ -148,6 +150,7 @@
         number=2;
         localStream.getTracks().forEach(track=>track.stop());
         peerlist=[];
+        member=[];
         $('#row11').empty();
         $('#row12').empty();
         $('#row21').empty();
