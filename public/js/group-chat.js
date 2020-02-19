@@ -19,7 +19,7 @@
     });
     socket.on('group-response',function(list,caller){
         if(busy===true){
-            socket.emit('busy',caller);
+            socket.emit('group-busy',caller);
             }
         else{
             $('#caller').append('<h3 class="text-danger">'+caller+' is calling (group)</h3><br>');
@@ -34,8 +34,6 @@
                 $('#row12').empty();
                 $('#row21').empty();
                 $('#row22').empty();
-                $('#addmem').prop("disabled",false);
-                $('#add-member').prop("disabled",false); 
             })
             $("#call-incoming").on("hide.bs.modal",function(){
                 $('#caller').empty(); 
@@ -54,8 +52,6 @@
                 //Fix occur many times
                 $('#call-incoming').modal('hide');
                 $('#groupmodal').modal('show');
-                $('#addmem').prop("disabled",false);
-                $('#add-member').prop("disabled",false);
                 $('#caller').empty(); 
                 navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
                     .then(stream=>{
@@ -172,6 +168,9 @@
     })
     socket.on('mem-update',function(list){
         peerlist=list;
+    })
+    socket.on('group-alr-busy',function(){
+        window.alert('Already in room!');
     })
     function HostNewGroup(){
         navigator.mediaDevices.getUserMedia(mediaStreamConstraints)

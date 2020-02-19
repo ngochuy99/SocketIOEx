@@ -84,6 +84,7 @@ io.on('connection',function(socket){
     socket.on('busy',function(name){
         socket.to(ID[name]).emit('alr-busy');
     })
+    
     socket.on('deny',function(name){
         socket.to(ID[name]).emit('not-ok');
     })
@@ -125,6 +126,9 @@ io.on('connection',function(socket){
         for(var index=0;index<memberlist.length;index++){
             socket.to(ID[memberlist[index]]).emit('mem-update',peerlist);
         }
+    })
+    socket.on('group-busy',function(name){
+        socket.to(ID[name]).emit('group-alr-busy');
     })
 })
 http.listen(process.env.PORT||3000,function(){

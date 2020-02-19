@@ -130,6 +130,7 @@
                 $('#face-time').prop("disabled",false);
                 $('#emoji').prop('disabled',false);
                 $('#game').prop('disabled',false);
+                $('#group-chat').prop('disabled',false);
                 socket.emit('change-name',$('#Username').val());
             })
             $('#Username').keypress(function(e){
@@ -143,6 +144,7 @@
                 $('#face-time').prop("disabled",false);
                 $('#emoji').prop('disabled',false);
                 $('#game').prop('disabled',false);
+                $('#group-chat').prop('disabled',false);
                 socket.emit('change-name',$('#Username').val());
             }
             })
