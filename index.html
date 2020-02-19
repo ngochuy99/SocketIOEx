@@ -135,12 +135,12 @@
                 <select id="id" class="form-control col-7 id" disabled></select>
             </div>
             <div class="form-group row ml-2">
-                <input disabled id="m" class="form-control col-7" placeholder="Enter your message" required
+                <input disabled id="m" class="form-control col-7" placeholder="Enter your message" required autocomplete="off"
                     style="width: 83.75%;">
-                <button disabled type="button" class="fa fa-send col-0.5 ml-1" id="form-submit"></button>
-                <button disabled onclick="sendrequest()" type="button" id="face-time" class="col-0.5 ml-1 fa fa-video-camera"></button>
+                <button disabled type="button" class=" col-0.5 ml-1" id="form-submit"> <img style="width: 35px; height: 30px;"  src="icon/send.png"></button>
+                <button disabled onclick="sendrequest()" type="button" id="face-time" class="col-0.5 ml-1 "><img style="width: 35px; height: 30px;"  src="icon/laptop.png"></button>
                 <div class="btn-group dropup">
-                    <button disabled type="button" id="game" class="col-0.5 ml-1  fa fa-gamepad dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                    <button disabled type="button" id="game" class="col-0.5 ml-1 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img style="width: 35px; height: 30px;"  src="icon/gamepad.png"></button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" onclick="window.open('http://localhost:3000/snake')">Snake</a>
                     </div>
