@@ -129,11 +129,16 @@ io.on('connection',function(socket){
     })
     socket.on('member-update',function(memberlist,peerlist){
         for(var index=0;index<memberlist.length;index++){
-            socket.to(ID[memberlist[index]]).emit('mem-update',peerlist);
+            socket.to(ID[memberlist[index]]).emit('mem-update',peerlist,memberlist);
         }
     })
     socket.on('group-busy',function(name){
         socket.to(ID[name]).emit('group-alr-busy');
+    })
+    socket.on('endcall',function(member,id){
+        for(var index=0;index<member.length;index++){
+            socket.to(ID[member[index]]).emit('closed',member,id);
+        }
     })
 })
 http.listen(process.env.PORT||3000,function(){
