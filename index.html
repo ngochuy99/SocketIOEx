@@ -100,13 +100,19 @@
     </div>
     <label for="message" class="h5 mr-5 text-danger" style="margin-top: 20px;">Message Box:</label>
     <button id="refresh" class="btn btn-secondary">Clear</button>
+    <label for="message" class="h5 mr-5 text-danger" style="margin-top: 20px;left: 55%; position: fixed;">Private-message Box:</label>
+    <button id="private-refresh" class="btn btn-secondary" style="margin-top: 20px;left: 68%; position: fixed;">Clear</button>
     <div class="container-fluid card ml-2"
-        style="background-color: rgba(51, 55, 56, 0.2); height: 58%; overflow-y: scroll; overflow-x: hidden;max-height: 58%; width: 80%; "
-        id="box">
+        style="background-color: rgba(51, 55, 56, 0.2); height: 58%;max-height: 58%; width: 80%; position: relative;">
         <div class="row" style="width:100%;">
-            <div class="col-xl-9 " style=" height: 28rem; width: 100%;" >
-                <table style="width: 945px; max-width: 945px; table-layout: fixed;">
-                <tr id="messages" style="  list-style: none;width: 1650px; height:auto; overflow-y: scroll;"></tr>
+            <div id="box" class="col-xl-4.5 " style=" height: 27rem; width: 70%;overflow-x: hidden;overflow-y: scroll;position: relative;" >
+                <table style="width: 800px; max-width: 800px; table-layout: fixed;">
+                <tr id="messages" style="  list-style: none;width: 500px; height:auto; overflow:auto;"></tr>
+                </table>
+            </div>
+            <div id="inbox" class="col-xl-3 " style=" height: 27rem; width: 45%;position: sticky;overflow-x: hidden;overflow-y: scroll;position: relative;" >
+                <table style="width: 300px; max-width: 300px; table-layout: fixed;">
+                <tr id="private-mes" style="  list-style: none;width: 250x; height:auto; overflow-y:auto;"></tr>
                 </table>
             </div>
             <div class="col-xl-2 ml-1" style="position: fixed;right: 0px;  background: rgba(18, 166, 224, 0.2);">

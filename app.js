@@ -64,8 +64,8 @@ io.on('connection',function(socket){
     socket.on('private',function(data,id){
         var receive='To '+id;
         var sender ='From '+socket.username;
-        socket.emit('post',receive,data);
-        io.to(ID[id]).emit('post',sender,data);
+        socket.emit('post-private',receive,data);
+        io.to(ID[id]).emit('post-private',sender,data);
     })
     //videocall-api
     socket.on('peer-id',function(data){

@@ -161,7 +161,7 @@
     function appendvideo(number,id){
         busy=true
         if(number%2==0){
-            $('#videocontain').append('<video class="col-5.5 mr-2" width="500" height="250"  id="'+id+'" autoplay></video>')
+            $('#videocontain').append('<video class="col-5.5 mr-2" width="500" height="250" controls  id="'+id+'" autoplay></video>')
         }
         remoteVideo=document.getElementById(id);
     }

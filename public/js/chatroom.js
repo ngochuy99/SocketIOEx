@@ -20,6 +20,10 @@
             $('#messages').empty();
             e.preventDefault();
             })
+            $('#private-refresh').click(function(e){
+                $('#private-mes').empty();
+                e.preventDefault();
+                })
             //LeaveRoom
             $("#join").click(function(e){
             if(!(roomid=$("#Room").val()))
@@ -85,12 +89,19 @@
             if($(".text-warning").length){
                 //Check if someone is typing
                 $(".text-warning").first().before('<div class="text-danger"><b class="text-danger">'+name+'</b>:<br>'+data);
+                $('#box').stop().animate ({scrollTop: $('#box')[0].scrollHeight});
             }
             else{
             $("#messages").append('<div class="text-danger"><b class="text-danger">'+name+'</b>:<br>'+data);
             }
             $('#box').stop().animate ({scrollTop: $('#box')[0].scrollHeight});
             $('#m').focus();
+            })
+            //send private message
+            socket.on('post-private',function(name,data){
+                $("#private-mes").append('<div class="text-danger"><b class="text-danger">'+name+'</b>:<br>'+data);
+                $('#inbox').stop().animate ({scrollTop: $('#box')[0].scrollHeight});
+                $('#m').focus();
             })
             //Update Private message destination
             socket.on('select',function(list){
@@ -152,6 +163,7 @@
                 window.alert('Name has already exist!');
                 $('#Save').prop("disabled",false);
                 $('#Username').prop("disabled",false);
+                $('#Username').focus();
             })
             //A person is typing
             $('#m').keyup(function(){
