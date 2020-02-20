@@ -100,7 +100,7 @@
         peerlist=list;
     })
     socket.on('group-alr-busy',function(){
-        window.alert('Already in call!');
+        window.alert('Already in room!');
     })
     function HostNewGroup(){
         navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
