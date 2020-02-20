@@ -3,15 +3,13 @@ var app=express();
 var http=require('http').createServer(app);
 var io= require('socket.io')(http);
 app.use(express.static('public'));
+app.set('view engine', 'html');
 app.get('/',function(req,res){
     res.sendFile(__dirname + '/index.html');
 });
-app.get('/snake',function(yreq,res){
-    res.sendFile(__dirname + '/public/game/snake.html');
+app.get('/snake',function(req,res){
+    res.sendFile(__dirname + '/snake.html');
 });
-app.get('/groupchat',function(req,res){
-    res.sendFile(__dirname+'/public/html/groupchat.html');
-})
 var Userlist={};
 var ID={};
 var room={};
