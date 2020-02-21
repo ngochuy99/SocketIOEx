@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="icon/favicon.ico" type="image/x-icon">
 </head>
 
-<body style="background-color: rgba(18, 166, 224, 0.2);  background-image: url('../background/nightsky2.jpg'); ">
+<body style="background-color: rgba(18, 166, 224, 0.2);  background-image: url('../background/lightmode.jpg'); ">
         <!-- Modal -->
         <div class="modal fade bd-example-modal-xl" id="videomodal" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -76,8 +76,15 @@
             </div>
             </div>
         </div>
+        <!-- <script>
+            function togglebg(){
+            var element = document.getElementsByClassName('form-control');
+            element.classList.toggle("lightmode");
+            console.log('get here!');
+        }</script> -->
     <div class="d-flex justify-content-center bg-danger mb-1">
         <button  onclick="window.alert('Developed with WebRTC, Socket.IO, Peerjs and bootstrap 4!')" class="btn btn-primary"><img src="icon/chat.png" width="50" height="50"></button>
+        <!-- <button onclick="togglebg()" class="btn btn-secondary" style="position: fixed;right: 0px; width: 100px; height:fit-content;">Background</button> -->
     </div>
     <div class="container-fluid">
         <div class="row mb-1">
@@ -98,9 +105,9 @@
         </div>
     </div>
     <label for="message" class="h5 mr-5 text-danger" style="margin-top: 20px;">Message Box:</label>
-    <button id="refresh" class="btn btn-secondary">Clear</button>
+    <button id="refresh" class="btn btn-primary">Clear</button>
     <label for="message" class="h5 mr-5 text-danger" style="margin-top: 20px;left: 55%; position: fixed;">Private-message Box:</label>
-    <button id="private-refresh" class="btn btn-secondary" style="margin-top: 10px;left: 68%; position: fixed;">Clear</button>
+    <button id="private-refresh" class="btn btn-primary" style="margin-top: 10px;left: 68%; position: fixed;">Clear</button>
     <div class="container-fluid card ml-2"
         style="background-color: rgba(51, 55, 56, 0.2);max-height: 58%; width: 80%; position: relative; height: auto;">
         <div class="row" style="width:100%;">
