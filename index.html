@@ -1,5 +1,4 @@
 <html>
-
 <head>
     <title>Chat App</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -16,6 +15,7 @@
     <script src="js/chatroom.js"></script>
     <link rel="shortcut icon" href="icon/favicon.ico" type="image/x-icon">
 </head>
+
 
 <body style="background-color: rgba(18, 166, 224, 0.2);  background-image: url('../background/lightmode.jpg'); ">
         <!-- Modal -->
@@ -59,6 +59,7 @@
               </div>
             </div>
           </div>
+
         <!-- Modal call incoming-->
         <div class="modal fade" id="call-incoming" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -72,6 +73,23 @@
                 <div class="modal-footer d-flex justify-content-center">
                     <button type="button" class="btn btn-success btn-circle btn-xl mr-5" id="accept">Accept</button>
                     <button type="button" class="btn btn-danger btn-circle btn-xl ml-5 " id="deny" data-dismiss="modal">Decline</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="call-incoming-group" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Call Incoming</h5>
+                </div>
+                <div class="modal-body d-flex justify-content-center" >
+                    <div class="d-flex justify-content-center" id="caller-group"></div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-success btn-circle btn-xl mr-5" id="accept-group">Accept</button>
+                    <button type="button" class="btn btn-danger btn-circle btn-xl ml-5 " id="deny-group" data-dismiss="modal">Decline</button>
                 </div>
             </div>
             </div>
@@ -109,7 +127,7 @@
     <label for="message" class="h5 mr-5 text-danger" style="margin-top: 20px;left: 55%; position: fixed;">Private-message Box:</label>
     <button id="private-refresh" class="btn btn-primary" style="margin-top: 10px;left: 68%; position: fixed;">Clear</button>
     <div class="container-fluid card ml-2"
-        style="background-color: rgba(51, 55, 56, 0.2);max-height: 58%; width: 80%; position: relative; height: auto;">
+        style="background-color: rgba(51, 55, 56, 0.2);max-height: 58%; width: 80%; position: relative; height: auto;" >
         <div class="row" style="width:100%;">
             <div id="box" class="col-xl-4.5 " style=" height: 27rem; width: 70%;overflow-x: hidden;overflow-y: scroll;position: relative;" >
                 <table style="width: 800px; max-width: 800px; table-layout: fixed;">
@@ -149,5 +167,6 @@
     </div>
     <script src="js/client.js"></script>
     <script src="js/group-chat.js"></script>
+
 </body>
 </html>

@@ -15,32 +15,32 @@ peer.on('open', function(id){
 });
 //one-to-one call
 socket.on('response',function(data){
-  if(busy===true){
-    socket.emit('busy',data);
-  }
-  else{
-  //accept or decline
-  $('#caller').append('<h3 class="text-danger">'+data+' is calling </h3><br>');
-  $('#call-incoming').modal('show');
-  $('#accept').click(function(){
-    $('#call-incoming').modal('hide');
-    $('#videomodal').modal('show');
-    response(data);
-    $('#caller').empty();
-    $('#face-time').prop("disabled",true); 
-  })
-  $('#deny').click(function(){
-    socket.emit('deny',data);
-    $('#caller').empty();
-  })
-  }
+    if(busy===true){
+      socket.emit('busy',data);
+    }
+    else{
+    //accept or decline
+    $('#caller').append('<h3 class="text-danger">'+data+' is calling </h3><br>');
+    $('#call-incoming').modal('show');
+    $('#accept').click(function(){
+      $('#call-incoming').modal('hide');
+      $('#videomodal').modal('show');
+      response(data);
+      $('#caller').empty();
+      $('#face-time').prop("disabled",true); 
+    })
+    $('#deny').click(function(){
+      socket.emit('deny',data);
+      $('#caller').empty();
+    })
+    }
 })
 socket.on('not-ok',function(){
-  $('#videomodal').modal('hide');
-  window.alert('The call was refused!');
-  localStream.getTracks().forEach(track=>track.stop());
-  $('#face-time').prop("disabled",false); 
-  $('#videomodal').modal('hide');
+    $('#videomodal').modal('hide');
+    window.alert('The call was refused!');
+    localStream.getTracks().forEach(track=>track.stop());
+    $('#face-time').prop("disabled",false); 
+    $('#videomodal').modal('hide');
 })
 socket.on('ok',function(data){
     var call=peer.call(data,localStream);
@@ -62,56 +62,42 @@ socket.on('ok',function(data){
     })
 })
 socket.on('alr-busy',function(){
-  $('#videomodal').modal('hide');
-  window.alert("Can't call right now!");
-  localStream.getTracks().forEach(track=>track.stop());
-  $('#face-time').prop("disabled",false); 
-  $('#videomodal').modal('hide');
-})
-peer.on('call',function(call){
-  call.answer(localStream);
-  call.on('stream',function(remoteStream){
-    busy=true;
-    remoteVideo.srcObject=remoteStream;
-  })
-  $("#videomodal").on("hidden.bs.modal", function() {
-    call.close();
-    busy=false;
-    localStream.getTracks().forEach(track=>track.stop());
-    $('#face-time').prop("disabled",false); 
-  });
-  call.on('close',function(){
-    busy=false;
+    $('#videomodal').modal('hide');
+    window.alert("Can't call right now!");
     localStream.getTracks().forEach(track=>track.stop());
     $('#face-time').prop("disabled",false); 
     $('#videomodal').modal('hide');
-  })
-});
+})
+socket.on('change-type-1',function(){
+  type=1;
+})
 
-//stream
-function sendrequest(){
-  if($('#id').val()!=='Chatroom'){
-      $('#videomodal').modal('show');
-      navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
-      .then(stream=>{
-      localStream=stream;
-      localVideo.srcObject=stream;
-      socket.emit('request',$('#id').val());  
-      $('#face-time').prop("disabled",true);  
-  }).catch(handleerror);
-  }
-  else(window.alert("Call one person pls!"));
+  //stream
+  function sendrequest(){
+    type=1;
+    if($('#id').val()!=='Chatroom'){
+        $('#videomodal').modal('show');
+        navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
+        .then(stream=>{
+        localStream=stream;
+        localVideo.srcObject=stream;
+        socket.emit('request',$('#id').val());
+        socket.emit('change-type-private',$('#id').val());
+        $('#face-time').prop("disabled",true);  
+    }).catch(handleerror);
+    }
+    else(window.alert("Call one person pls!"));
 }
 function response(data){
-  navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
-  .then(stream=>{
-    localStream=stream;
-    localVideo.srcObject=stream;
-    socket.emit('accept',peer.id,data)
-}).catch(handleerror);
+    navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
+    .then(stream=>{
+      localStream=stream;
+      localVideo.srcObject=stream;
+      socket.emit('accept',peer.id,data)
+  }).catch(handleerror);
 }
 function handleerror(err){
-  $('#videomodal').modal('hide');
-  window.alert('Enable your webcam and micro!');
+    $('#videomodal').modal('hide');
+    window.alert('Enable your webcam and micro!');
 }
 }

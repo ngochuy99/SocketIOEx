@@ -71,7 +71,9 @@ io.on('connection',function(socket){
     socket.on('peer-id',function(data){
         socket.peerid=data;
     })
-
+    socket.on('change-type-private',function(des){
+        socket.to(ID[des]).emit('change-type-1');
+    })
     socket.on('request',function(calling,stream){
         socket.to(ID[calling]).emit('response',socket.username);
     })
@@ -137,6 +139,9 @@ io.on('connection',function(socket){
         for(var index=0;index<member.length;index++){
             socket.to(ID[member[index]]).emit('closed',member,id);
         }
+    })
+    socket.on('change-type-group',function(des){
+        socket.to(ID[des]).emit('change-type-2');
     })
 })
 http.listen(process.env.PORT||3000,function(){
