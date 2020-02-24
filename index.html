@@ -17,7 +17,7 @@
 </head>
 
 
-<body style="background-color: rgba(18, 166, 224, 0.2);  background-image: url('../background/lightmode.jpg'); ">
+<body style="background-color: rgba(18, 166, 224, 0.2);  background-image: url('../background/nightsky2.jpg'); ">
         <!-- Modal -->
         <div class="modal fade bd-example-modal-xl" id="videomodal" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -47,6 +47,9 @@
         <div class="modal fade bd-example-modal-lg" id="groupmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
               <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  </div>
                 <div class="container ">
                     <div class="row mb-3 d-flex justify-content-center" id="videocontain">
                     </div>
@@ -68,7 +71,7 @@
                 <h5 class="modal-title" id="exampleModalLabel">Call Incoming</h5>
                 </div>
                 <div class="modal-body d-flex justify-content-center" >
-                    <div class="d-flex justify-content-center" id="caller"></div>
+                    <div class="" id="caller"></div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
                     <button type="button" class="btn btn-success btn-circle btn-xl mr-5" id="accept">Accept</button>
@@ -123,19 +126,19 @@
         </div>
     </div>
     <label for="message" class="h5 mr-5 text-danger" style="margin-top: 20px;">Message Box:</label>
-    <button id="refresh" class="btn btn-primary">Clear</button>
-    <label for="message" class="h5 mr-5 text-danger" style="margin-top: 20px;left: 55%; position: fixed;">Private-message Box:</label>
-    <button id="private-refresh" class="btn btn-primary" style="margin-top: 10px;left: 68%; position: fixed;">Clear</button>
+    <button id="refresh" class="btn btn-primary" style="margin-top: 10px; position: fixed; left:9%;">Clear</button>
+    <label for="message" class="h5 mr-5 text-danger" style="margin-top: 20px;left:40%; position: fixed;">Private-message Box:</label>
+    <button id="private-refresh" class="btn btn-primary" style="margin-top: 10px;left: 53%; position: fixed;">Clear</button>
     <div class="container-fluid card ml-2"
         style="background-color: rgba(51, 55, 56, 0.2);max-height: 58%; width: 80%; position: relative; height: auto;" >
         <div class="row" style="width:100%;">
-            <div id="box" class="col-xl-4.5 " style=" height: 27rem; width: 70%;overflow-x: hidden;overflow-y: scroll;position: relative;" >
-                <table style="width: 800px; max-width: 800px; table-layout: fixed;">
+            <div id="box" class="" style=" height: 27rem; width: 50%;overflow-x: hidden;overflow-y: scroll;position: relative;" >
+                <table style="width: 550px; max-width: 550px; table-layout: fixed;">
                 <tr id="messages" style="  list-style: none;width: 500px; height:auto; overflow:auto;"></tr>
                 </table>
             </div>
-            <div id="inbox" class="col-xl-3 " style=" height: 27rem; width: 45%;position: sticky;overflow-x: hidden;overflow-y: scroll;position: relative;" >
-                <table style="width: 300px; max-width: 300px; table-layout: fixed;">
+            <div id="inbox" class="" style=" height: 27rem; width: 50%;position: sticky;overflow-x: hidden;overflow-y: scroll;position: relative;" >
+                <table style="width: 550px; max-width: 550px; table-layout: fixed;">
                 <tr id="private-mes" style="  list-style: none;width: 250x; height:auto; overflow-y:auto;"></tr>
                 </table>
             </div>

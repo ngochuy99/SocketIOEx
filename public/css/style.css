@@ -95,3 +95,12 @@
     background-image: url('../background/lightmode.jpg');
     color: black;
 }
+.time-right {
+    float: right;
+    color: rgb(0, 255, 0);
+  }
+.text-danger{
+    width: 534px;
+    margin: 0px;
+    margin-bottom: 0px;
+}

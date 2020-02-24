@@ -83,7 +83,6 @@ io.on('connection',function(socket){
     socket.on('busy',function(name){
         socket.to(ID[name]).emit('alr-busy');
     })
-    
     socket.on('deny',function(name){
         socket.to(ID[name]).emit('not-ok');
     })

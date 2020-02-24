@@ -6,8 +6,8 @@
 const localVideo=document.querySelector('video#localVideo');
 const remoteVideo=document.querySelector('video#remoteVideo');
 var localStream,MyStream;
-var call,number=1;
-var peerid=[],Allstream=[];
+var number=1;
+var peerid=[];
 var busy=false,group=false;
 var peer = new Peer({key: 'lwjd5qra8257b9'});
 peer.on('open', function(id){
@@ -20,7 +20,7 @@ socket.on('response',function(data){
     }
     else{
     //accept or decline
-    $('#caller').append('<h3 class="text-danger">'+data+' is calling </h3><br>');
+    $('#caller').append('<h3 class="text-success">'+data+' is calling </h3><br>');
     $('#call-incoming').modal('show');
     $('#accept').click(function(){
       $('#call-incoming').modal('hide');
@@ -71,7 +71,6 @@ socket.on('alr-busy',function(){
 socket.on('change-type-1',function(){
   type=1;
 })
-
   //stream
   function sendrequest(){
     type=1;
@@ -98,6 +97,7 @@ function response(data){
 }
 function handleerror(err){
     $('#videomodal').modal('hide');
+    console.log(err);
     window.alert('Enable your webcam and micro!');
-}
+  }
 }

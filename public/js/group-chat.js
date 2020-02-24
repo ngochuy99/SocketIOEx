@@ -11,18 +11,13 @@
     const unique = (value, index, self) => {
         return self.indexOf(value) === index
       }
-      
-    var peer = new Peer({key: 'lwjd5qra8257b9'});
-    peer.on('open', function(id){
-        socket.emit('peer-id',peer.id);
-    });
     socket.on('group-response',function(list,caller){
         type=2;
         if(busy===true){
             socket.emit('group-busy',caller);
             }
         else{
-            $('#caller-group').append('<h3 class="text-danger">'+caller+' is calling (group)</h3><br>');
+            $('#caller-group').append('<h3 class="text-success">'+caller+' is calling (group)</h3><br>');
             $('#call-incoming-group').modal('show');
             //close
             $("#groupmodal").on("hidden.bs.modal",function(){
@@ -187,7 +182,7 @@
         $('#videocontain').empty();
     }
     function appendvideo(number,id){
-        busy=true
+        busy=true;
         if(number%2==0){
             $('#videocontain').append('<video class="col-5.5 mr-2" width="500" height="250" controls  id="'+id+'" autoplay></video>')
         }
