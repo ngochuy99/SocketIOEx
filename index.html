@@ -80,7 +80,7 @@
             </div>
             </div>
         </div>
-        
+        <!-- Modal call incoming for group -->
         <div class="modal fade" id="call-incoming-group" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -97,12 +97,25 @@
             </div>
             </div>
         </div>
-        <!-- <script>
-            function togglebg(){
-            var element = document.getElementsByClassName('form-control');
-            element.classList.toggle("lightmode");
-            console.log('get here!');
-        }</script> -->
+        <!-- Modal request join chat room-->
+        <div class="modal fade" id="invite-request" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">Invitation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body d-flex justify-content-center" id="content">
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" id="chat-accept"><img style="width: 64px; height: 64px;"  src="icon/accept.png"></button>
+                    <button type="button" id="chat-refuse" data-dismiss="modal"><img style="width: 64px; height: 64px;"  src="icon/refuse.png"></button>
+                </div>
+            </div>
+            </div>
+        </div>
     <div class="d-flex justify-content-center bg-danger mb-1">
         <button  onclick="window.alert('Developed with WebRTC, Socket.IO, Peerjs and bootstrap 4!')" class="btn btn-primary"><img src="icon/chat.png" width="50" height="50"></button>
         <!-- <button onclick="togglebg()" class="btn btn-secondary" style="position: fixed;right: 0px; width: 100px; height:fit-content;">Background</button> -->
@@ -152,10 +165,12 @@
         <form class='form'>
             <div class="form-group row ml-2">
                 <select id="id" class="form-control col-7 id" disabled></select>
+                <button disabled id="addchatmember" class="col-0.5 ml-1"><img style="width: 35px; height: 30px;"  src="icon/plus.png"></button>
             </div>
             <div class="form-group row ml-2">
-                <input disabled id="m" class="form-control col-7" placeholder="Enter your message" required autocomplete="off"
-                    style="width: 83.75%;">
+                <input disabled id="m" class="form-control col-7" placeholder="Enter your message" required autocomplete="off" style="width: 83.75%;">
+                <input onchange="show()" id="file-attach" type="file" style="display: none;" accept="image/x-png,image/gif,image/jpeg" />
+                <button disabled type="button" class=" col-0.5 ml-1" id="file-attach-input"> <img style="width: 35px; height: 30px;"  src="icon/photo.png"></button>
                 <button disabled type="button" class=" col-0.5 ml-1" id="form-submit"> <img style="width: 35px; height: 30px;"  src="icon/send.png"></button>
                 <button disabled onclick="sendrequest()" type="button" id="face-time" class="col-0.5 ml-1 "><img style="width: 35px; height: 30px;"  src="icon/laptop.png"></button>
                 <div class="btn-group dropup">
@@ -170,6 +185,5 @@
     </div>
     <script src="js/client.js"></script>
     <script src="js/group-chat.js"></script>
-
 </body>
 </html>

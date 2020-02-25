@@ -1,4 +1,5 @@
-{const mediaStreamConstraints = {
+{
+const mediaStreamConstraints = {
     video: true,
     audio: true
   };

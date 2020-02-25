@@ -2,6 +2,7 @@ var express=require('express');
 var app=express();
 var http=require('http').createServer(app);
 var io= require('socket.io')(http);
+var fs = require("fs");
 app.use(express.static('public'));
 app.set('view engine', 'html');
 app.get('/',function(req,res){
@@ -49,7 +50,6 @@ io.on('connection',function(socket){
         }
         io.to(socket.roomid).emit('update',local);
     })
-
     socket.on('disconnect',function(){
         delete Userlist[socket.username];
         delete room[socket.username];
@@ -66,6 +66,13 @@ io.on('connection',function(socket){
         var sender ='From '+socket.username;
         socket.emit('post-private',receive,data);
         io.to(ID[id]).emit('post-private',sender,data);
+    })
+    //add chat member
+    socket.on('addchatmember',function(invited,roomname,caller){
+        socket.to(ID[invited]).emit('invite',roomname,caller);
+    })
+    socket.on('refuse',function(caller,refuse_name){
+        socket.to(ID[caller]).emit('refused',refuse_name);
     })
     //videocall-api
     socket.on('peer-id',function(data){
@@ -142,7 +149,31 @@ io.on('connection',function(socket){
     socket.on('change-type-group',function(des){
         socket.to(ID[des]).emit('change-type-2');
     })
+    //img share
+    socket.on('upload',function(data){
+        var guess = data.base64.match(/^data:image\/(png|jpeg);base64,/)[1];
+        var ext = "";
+        switch(guess) {
+        case "png"  : ext = ".png"; break;
+        case "jpeg" : ext = ".jpg"; break;
+        default     : ext = ".bin"; break;
+        }
+        var savedFilename = "/upload/"+randomString()+ext;
+        fs.writeFile(__dirname+"/public"+savedFilename, getBase64Image(data.base64), 'base64', function(err) {
+        if (err !== null)
+            console.log(err);
+        else
+            io.to(socket.roomid).emit('img-share', {path: savedFilename,});
+        });
+        
+    })
 })
 http.listen(process.env.PORT||3000,function(){
     console.log('Sever is running on port '+3000);
 })
+function getBase64Image(imgData) {
+    return imgData.replace(/^data:image\/(png|jpeg|jpg);base64,/, "");
+}
+function randomString(){
+     return num=Math.floor(Math.random() * 100000).toString();
+}
