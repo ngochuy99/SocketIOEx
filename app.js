@@ -3,6 +3,7 @@ var app=express();
 var http=require('http').createServer(app);
 var io= require('socket.io')(http);
 var fs = require("fs");
+var path = require("path");
 app.use(express.static('public'));
 app.set('view engine', 'html');
 app.get('/',function(req,res){
@@ -15,6 +16,7 @@ var Userlist={};
 var ID={};
 var room={};
 io.on('connection',function(socket){
+    setInterval(cleanUpload,86400000);
     socket.on('NewUser',function(username,id,roomid){
         socket.username=username;
         Userlist[username]=username;
@@ -150,7 +152,7 @@ io.on('connection',function(socket){
         socket.to(ID[des]).emit('change-type-2');
     })
     //img share
-    socket.on('upload',function(data){
+    socket.on('upload',function(data,sender){
         var guess = data.base64.match(/^data:image\/(png|jpeg);base64,/)[1];
         var ext = "";
         switch(guess) {
@@ -163,7 +165,7 @@ io.on('connection',function(socket){
         if (err !== null)
             console.log(err);
         else
-            io.to(socket.roomid).emit('img-share', {path: savedFilename,});
+            io.to(socket.roomid).emit('img-share', {path: savedFilename,},sender);
         });
         
     })
@@ -176,4 +178,15 @@ function getBase64Image(imgData) {
 }
 function randomString(){
      return num=Math.floor(Math.random() * 100000).toString();
+}
+function cleanUpload(){
+    const folderpath=__dirname+'/public/upload';
+    fs.readdir(folderpath,(err,files)=>{
+        if(err) throw err;
+        for (const file of files){
+            fs.unlink(path.join(folderpath,file),err=>{
+                if(err) throw err;
+            })
+        }
+    })
 }

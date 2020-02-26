@@ -57,18 +57,20 @@
                 }
                 else{
                     socket.emit('addchatmember',$('#id').val(),$('#Room').val(),clientname);
+                    console.log($('#Room').val());
                     e.preventDefault();
                 }
             })
             socket.on('invite',function(roomname,caller){
-
                 $('#content').append('<b>'+caller+' invite you to join ' + roomname+' room');
+                invitedroom=roomname;
                 $('#invite-request').modal('show');
                 $('#chat-accept').click(function(event){
                     event.stopPropagation();
                     event.stopImmediatePropagation();
+                    console.log(invitedroom);
                     $('#invite-request').modal('hide');
-                    $('#Room').val(roomname);
+                    $('#Room').val(invitedroom);
                     $('#join').click();
                     $('#content').empty();
                 })
@@ -246,9 +248,9 @@
                 $('#'+name).remove();
             })
             //img share
-            socket.on('img-share',function(data){
+            socket.on('img-share',function(data,sender){
                 var div = document.createElement('div');
-                div.innerHTML = ['<img  src="', data.path,'" style="width=100px,height=100px" />'].join('');
+                div.innerHTML = ['<b class="text-danger">'+sender+':</b><br><img style="max-width: 100px; max-height: 100px;"  src="', data.path,'"  />'].join('');
                 document.getElementById('messages').append(div, null);
                 $('#box').stop ().animate ({scrollTop: $('#box')[0].scrollHeight});
             })
