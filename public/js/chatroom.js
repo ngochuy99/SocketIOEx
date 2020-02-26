@@ -251,7 +251,7 @@
             socket.on('img-share',function(data,sender){
                 var div = document.createElement('div');
                 div.innerHTML = ['<b class="text-danger">'+sender+':</b><br><img style="max-width: 100px; max-height: 100px;"  src="', data.path,'"  />'].join('');
-                document.getElementById('messages').append(div, null);
+                document.getElementById('messages').append(div);
                 $('#box').stop ().animate ({scrollTop: $('#box')[0].scrollHeight});
             })
         })
