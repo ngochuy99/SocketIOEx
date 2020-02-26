@@ -166,12 +166,6 @@
             <div class="form-group row ml-2">
                 <select id="id" class="form-control col-7 id" disabled></select>
                 <button disabled id="addchatmember" class="col-0.5 ml-1"><img style="width: 35px; height: 30px;"  src="icon/plus.png"></button>
-            </div>
-            <div class="form-group row ml-2">
-                <input disabled id="m" class="form-control col-7" placeholder="Enter your message" required autocomplete="off" style="width: 83.75%;">
-                <input onchange="show()" id="file-attach" type="file" style="display: none;" accept="image/x-png,image/gif,image/jpeg" />
-                <button disabled type="button" class=" col-0.5 ml-1" id="file-attach-input"> <img style="width: 35px; height: 30px;"  src="icon/photo.png"></button>
-                <button disabled type="button" class=" col-0.5 ml-1" id="form-submit"> <img style="width: 35px; height: 30px;"  src="icon/send.png"></button>
                 <button disabled onclick="sendrequest()" type="button" id="face-time" class="col-0.5 ml-1 "><img style="width: 35px; height: 30px;"  src="icon/laptop.png"></button>
                 <div class="btn-group dropup">
                     <button disabled type="button" id="game" class="col-0.5 ml-1 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img style="width: 35px; height: 30px;"  src="icon/gamepad.png"></button>
@@ -180,6 +174,12 @@
                     </div>
                   </div>
                 <button type="button" disabled id="group-chat" class="col-0.5 ml-1" data-toggle="modal" data-target="#groupmodal" onclick="HostNewGroup()"><img style="width: 35px; height: 30px;"  src="icon/group.png"></button>
+            </div>
+            <div class="form-group row ml-2">
+                <input disabled id="m" class="form-control col-7" placeholder="Enter your message" required autocomplete="off" style="width: 83.75%;">
+                <input onchange="show()" id="file-attach" type="file" style="display: none;" accept="image/x-png,image/gif,image/jpeg" />
+                <button disabled type="button" class=" col-0.5 ml-1" id="file-attach-input"> <img style="width: 35px; height: 30px;"  src="icon/photo.png"></button>
+                <button disabled type="button" class=" col-0.5 ml-1" id="form-submit"> <img style="width: 35px; height: 30px;"  src="icon/send.png"></button>
             </div>
         </form>
     </div>
