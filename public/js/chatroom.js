@@ -166,6 +166,13 @@
                 $('#users').append('<div class="text-danger">'+user+'</div>');
             })
             })
+            socket.on('online-update',function(list){
+                $('#online-users').empty();
+                $.each(list,function(user){
+                    if(user!='null')
+                    $('#online-users').append('<div class="text-danger">'+user+'</div>');
+                })
+            })
             //Detect a Member left the room
             socket.on('leave',function(data){
             if($(".text-warning").length){
@@ -218,7 +225,6 @@
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 $('#file-attach').click();
-
             })
             //A person is typing
             $('#m').keyup(function(){
@@ -263,3 +269,7 @@
             }
  	        reader.readAsDataURL(x.files[0]);
         };
+        function toggle(){
+            $("#room-container").toggleClass("public room");
+            $("#public-container").toggleClass("room public");
+        }

@@ -104,3 +104,9 @@
     margin: 0px;
     margin-bottom: 0px;
 }
+.room{
+    display: none; position: fixed;right: 0px; width: 300px; background: rgba(18, 166, 224, 0.2);
+}
+.public{
+    position: fixed;right: 0px; width: 300px; background: rgba(18, 166, 224, 0.2);
+}

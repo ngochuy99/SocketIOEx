@@ -31,6 +31,7 @@ io.on('connection',function(socket){
             if(room[people]==socket.roomid)  local[people]=people;
         }
         io.to(socket.roomid).emit('update',local);
+        io.emit('online-update',Userlist);
         io.emit('select',Userlist,socket.username);
     })
     socket.on('sendmes',function(data){
@@ -51,6 +52,7 @@ io.on('connection',function(socket){
             if(room[people]==socket.roomid)  local[people]=people;
         }
         io.to(socket.roomid).emit('update',local);
+        io.emit('online-update',Userlist);
     })
     socket.on('disconnect',function(){
         delete Userlist[socket.username];
@@ -61,6 +63,7 @@ io.on('connection',function(socket){
             if(room[people]==socket.roomid)  local[people]=people;
         }
         io.to(socket.roomid).emit('update',local);
+        io.emit('online-update',Userlist);
     })
     //private-message-api
     socket.on('private',function(data,id){
@@ -119,6 +122,7 @@ io.on('connection',function(socket){
             if(room[people]==socket.roomid)  local[people]=people;
         }
         io.to(socket.roomid).emit('update',local);
+        io.emit('online-update',Userlist);
         io.emit('select',Userlist);
     })
     //a person is typing

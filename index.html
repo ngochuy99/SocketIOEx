@@ -142,6 +142,7 @@
     <button id="refresh" class="btn btn-primary" style="margin-top: 10px; position: fixed; left:9%;">Clear</button>
     <label for="message" class="h5 mr-5 text-danger" style="margin-top: 20px;left:40%; position: fixed;">Private-message Box:</label>
     <button id="private-refresh" class="btn btn-primary" style="margin-top: 10px;left: 53%; position: fixed;">Clear</button>
+    <button id="member-toggle" onclick="toggle()" type="button" style="margin-top: 10px; left: 85%;position: fixed;color: black;background-color:rgb(0, 0, 0,0.1); "><img  style=" max-width:40px; max-height: 40px;" src="/icon/refresh.png"></button>
     <div class="container-fluid card ml-2"
         style="background-color: rgba(51, 55, 56, 0.2);max-height: 58%; width: 80%; position: relative; height: auto;" >
         <div class="row" style="width:100%;">
@@ -155,9 +156,13 @@
                 <tr id="private-mes" style="  list-style: none;width: 250x; height:auto; overflow-y:auto;"></tr>
                 </table>
             </div>
-            <div class="col-xl ml-1" style="position: fixed;right: 0px; width: 300px; background: rgba(18, 166, 224, 0.2);">
-                <b class="text-danger">Member in the room</b class="text-danger">
+            <div class="room" id="room-container">
+                <b class="text-danger" id="member-title">Online Member in the room</b class="text-danger">
                 <div id="users"></div>
+            </div>
+            <div class="public" id="public-container">
+                <b class="text-danger" id="member-title">Online Member</b class="text-danger">
+                <div id="online-users"></div>
             </div>
         </div>
     </div>
